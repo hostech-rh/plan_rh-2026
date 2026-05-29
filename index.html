@@ -784,8 +784,15 @@ async function initApp(){
     if(remote.kpis)    { kpis=remote.kpis;      localStorage.setItem(KPI_KEY,JSON.stringify(kpis)); }
     if(remote.hellena) { hbl=remote.hellena;    localStorage.setItem(HBL_KEY,JSON.stringify(hbl)); }
     if(remote.sueldos) { sh=remote.sueldos;     localStorage.setItem(SH_KEY,JSON.stringify(sh)); }
+    // Si Sheets estaba vacío, empuja el seed para sincronizar
+    if(!remote.tareas)   syncToSheets('tareas',tasks);
+    if(!remote.vacantes) syncToSheets('vacantes',vacs);
+    if(!remote.kpis)     syncToSheets('kpis',kpis);
+    if(!remote.hellena)  syncToSheets('hellena',hbl);
+    if(!remote.sueldos)  syncToSheets('sueldos',sh);
     setSavedLabel('Datos sincronizados ✓');
   } else {
+    // Sin conexión — empuja al menos al localStorage
     setSavedLabel('Modo local · sin conexión');
   }
   render();
@@ -804,7 +811,7 @@ const SEED=[
   {id:3,mes:'Enero',eje:'Cultura y Comunicación interna',accion:'Reinducción de las áreas internas',resp:'Alexa',status:'Completada',notas:'Encuesta de satisfacción realizada'},
   {id:4,mes:'Enero',eje:'Procesos y Estructura RH',accion:'Aprobación plan final de RH y presupuesto',resp:'Paloma/DG',status:'Completada',notas:'Pendiente revisión con consultoría de sueldos'},
   {id:5,mes:'Febrero',eje:'Cultura y Comunicación interna',accion:'Arranque consultoría Hellena',resp:'Paloma/DG',status:'Completada',notas:'Kick off 29 enero realizado'},
-  {id:6,mes:'Febrero',eje:'Atracción y Retención de Talento',accion:'Reclutamiento posiciones clave de RH',resp:'Alexa',status:'En progreso',notas:'Entrevistas coordinador de reclutamiento iniciadas'},
+  {id:6,mes:'Febrero',eje:'Atracción y Retención de Talento',accion:'Reclutamiento posiciones clave de RH',resp:'Alexa',status:'Iniciada',notas:'Entrevistas coordinador de reclutamiento iniciadas'},
   {id:7,mes:'Febrero',eje:'Procesos y Estructura RH',accion:'Consultoría legal',resp:'Paloma/Mariana/Rosy',status:'Completada',notas:'Contratos, aviso de privacidad y convenios'},
   {id:8,mes:'Febrero',eje:'Procesos y Estructura RH',accion:'Planeación de plantilla con todo el equipo',resp:'Toda la plantilla',status:'Sin iniciar',notas:'Pendiente que equipos compartan necesidades'},
   {id:9,mes:'Febrero',eje:'Procesos y Estructura RH',accion:'Instalación de señalética y extintores',resp:'Ale/Paloma',status:'Completada',notas:'Señalamientos, extintores, detectores colocados'},
@@ -813,13 +820,13 @@ const SEED=[
   {id:12,mes:'Marzo',eje:'Desarrollo y Formación',accion:'Pruebas a líderes VIA CHARACTER',resp:'Hellena/Paloma',status:'Completada',notas:'Pruebas terminadas 11 de marzo'},
   {id:13,mes:'Marzo',eje:'Desarrollo y Formación',accion:'Encuesta general de comunicación (toda la empresa)',resp:'Paloma/Hellena',status:'Completada',notas:'70% de la población respondió'},
   {id:14,mes:'Marzo',eje:'Atracción y Retención de Talento',accion:'Inicia reclutamiento equipo de ventas y reservas',resp:'DC/Reclutamiento',status:'Sin iniciar',notas:'Pendiente revisar con las áreas'},
-  {id:15,mes:'Marzo',eje:'Cultura y Comunicación interna',accion:'Workshop líderes Hostech — Taller de Liderazgo (Hellena)',resp:'Hellena/Paloma',status:'En progreso',notas:'Pendiente definir fecha'},
-  {id:16,mes:'Abril',eje:'Cultura y Comunicación interna',accion:'Fase de Leadership Journey',resp:'Hellena/Paloma',status:'En progreso',notas:'Se movió a mayo'},
-  {id:17,mes:'Abril',eje:'Capacitación',accion:'Co-diseño plan anual de capacitación en habilidades organizacionales',resp:'Hellena/Paloma',status:'En progreso',notas:'Revisar con Hellena fechas e instrumentos'},
-  {id:18,mes:'Abril',eje:'Procesos y Estructura RH',accion:'Arranque consultoría sueldos y salarios',resp:'Paloma/Rosy',status:'En progreso',notas:'Primera fase: descriptivas de puesto y organigrama'},
+  {id:15,mes:'Marzo',eje:'Cultura y Comunicación interna',accion:'Workshop líderes Hostech — Taller de Liderazgo (Hellena)',resp:'Hellena/Paloma',status:'Iniciada',notas:'Pendiente definir fecha'},
+  {id:16,mes:'Abril',eje:'Cultura y Comunicación interna',accion:'Fase de Leadership Journey',resp:'Hellena/Paloma',status:'Iniciada',notas:'Se movió a mayo'},
+  {id:17,mes:'Abril',eje:'Capacitación',accion:'Co-diseño plan anual de capacitación en habilidades organizacionales',resp:'Hellena/Paloma',status:'Iniciada',notas:'Revisar con Hellena fechas e instrumentos'},
+  {id:18,mes:'Abril',eje:'Procesos y Estructura RH',accion:'Arranque consultoría sueldos y salarios',resp:'Paloma/Rosy',status:'Iniciada',notas:'Primera fase: descriptivas de puesto y organigrama'},
   {id:19,mes:'Abril',eje:'Procesos y Estructura RH',accion:'Validación equipo interno Hostech — sueldos y salarios',resp:'SH/Dirección General',status:'Sin iniciar',notas:''},
   {id:20,mes:'Abril',eje:'Capacitación',accion:'Fase de capacitación Juniper (RH como soporte)',resp:'Operaciones/Paloma',status:'Sin iniciar',notas:''},
-  {id:21,mes:'Abril',eje:'Atracción y Retención de Talento',accion:'Proyecto habilitación de líderes para entrevistas SMART',resp:'Alexa',status:'En progreso',notas:'Presentación jueves 30 abril. Ya presentado'},
+  {id:21,mes:'Abril',eje:'Atracción y Retención de Talento',accion:'Proyecto habilitación de líderes para entrevistas SMART',resp:'Alexa',status:'Completada',notas:'Presentación jueves 30 abril. Ya presentado'},
   {id:22,mes:'Mayo',eje:'Procesos y Estructura RH',accion:'Primera entrega proyecto sueldos y salarios',resp:'SH/Paloma/Rosy',status:'Sin iniciar',notas:'Ideal para revisión a mitad de año'},
   {id:23,mes:'Mayo',eje:'Desarrollo y Formación',accion:'Se activa programa upskilling y reskilling',resp:'Hellena/Paloma',status:'Sin iniciar',notas:'Aprender habilidades nuevas para el rol'},
   {id:24,mes:'Mayo',eje:'Atracción y Retención de Talento',accion:'Contratación equipo de ventas',resp:'Revisar con Jonathan',status:'Sin iniciar',notas:''},
