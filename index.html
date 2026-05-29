@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Plan RH 2026 — Hostech</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#f6f5ec;
+  --yellow:#fad83f;
+  --yellow-soft:#fef8d0;
+  --blue:#4563ff;
+  --blue-soft:#dce2ff;
+  --pink:#C40E91;
+  --pink-soft:#f9d0ee;
+  --cyan:#4A9FDC;
+  --cyan-soft:#d6edf9;
+  --ink:#10100f;
+  --ink-soft:#2e2d2a;
+  --ink-muted:#7a7870;
+  --ink-faint:#c8c7be;
+  --border:#e4e3d8;
+  --white:#ffffff;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh}
+
+/* HEADER */
+.mast{background:var(--ink);position:sticky;top:0;z-index:100}
+.mast-in{display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:60px;max-width:1400px;margin:0 auto}
+.logo{font-family:'DM Serif Display',serif;font-size:19px;color:var(--cream);letter-spacing:.01em;display:flex;align-items:center;gap:10px}
+.logo-dot{width:10px;height:10px;border-radius:2px;background:#4A9FDC}
+.logo span{font-family:'DM Sans',sans-serif;font-size:11px;color:var(--ink-faint);letter-spacing:.12em;text-transform:uppercase}
+.saved-bar{font-size:11px;color:var(--ink-faint);display:flex;align-items:center;gap:6px}
+.sdot{width:6px;height:6px;border-radius:50%;background:var(--pink);animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* NAV */
+.nav{background:var(--white);border-bottom:1px solid var(--border)}
+.nav-in{max-width:1400px;margin:0 auto;padding:0 2.5rem;display:flex}
+.ntab{padding:13px 20px;font-size:13px;font-weight:500;color:var(--ink-muted);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:'DM Sans',sans-serif;transition:all .2s}
+.ntab:hover{color:var(--ink)}
+.ntab.active{color:var(--pink);border-bottom-color:var(--pink)}
+
+/* MAIN */
+.main{max-width:1400px;margin:0 auto;padding:2rem 2.5rem 4rem}
+
+/* HERO */
+.hero{display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:end;margin-bottom:1.5rem;padding-bottom:1.75rem;border-bottom:1px solid var(--border)}
+.hero h2{font-family:'DM Serif Display',serif;font-size:44px;line-height:1.05}
+.hero h2 em{font-style:italic;color:var(--pink)}
+.hero p{font-size:14px;color:var(--ink-muted);margin-top:8px}
+.big-n{font-family:'DM Serif Display',serif;font-size:68px;line-height:1;text-align:right}
+.big-n span{font-size:28px;color:var(--ink-muted)}
+.pct-lbl{font-size:11px;color:var(--ink-muted);letter-spacing:.1em;text-transform:uppercase;text-align:right;margin-top:4px}
+
+/* PROGRESS */
+.prog-strip{height:4px;background:var(--border);border-radius:2px;margin-bottom:1.75rem;overflow:hidden}
+.prog-fill{height:100%;background:var(--blue);border-radius:2px;transition:width .5s}
+
+/* PILLS */
+.pills{display:flex;gap:8px;margin-bottom:1.75rem;flex-wrap:wrap}
+.pill{display:flex;align-items:center;gap:7px;padding:7px 14px;border-radius:100px;border:1px solid var(--border);background:var(--white);font-size:13px;color:var(--ink-soft)}
+.pdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.pill strong{font-weight:600;font-size:15px}
+
+/* FILTERS */
+.filters{display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap;align-items:center}
+select.fs,input.fs{font-family:'DM Sans',sans-serif;font-size:13px;padding:8px 13px;border:1px solid var(--border);border-radius:8px;background:var(--white);color:var(--ink);outline:none;cursor:pointer;transition:border-color .2s}
+select.fs:focus,input.fs:focus{border-color:var(--blue)}
+input.fs{flex:1;min-width:180px}
+
+/* TABLE */
+.twrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+thead tr{border-bottom:2px solid var(--ink)}
+th{text-align:left;padding:9px 12px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--ink-soft)}
+tr:hover td{background:var(--white)}
+.mhdr td{background:var(--ink);color:var(--cream);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px}
+
+/* EJE BADGES */
+.eb{display:inline-block;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:600;letter-spacing:.04em}
+.eAT{background:var(--blue-soft);color:var(--blue)}
+.eCA{background:#d4f5e0;color:#1a6b3a}
+.eDF{background:#ede8ff;color:#4a28c4}
+.eCC{background:var(--yellow-soft);color:#8a6800}
+.ePE{background:#ffe8d4;color:#b84a00}
+
+/* STATUS */
+.ssel{font-family:'DM Sans',sans-serif;font-size:12px;padding:4px 10px;border-radius:20px;border:1.5px solid;cursor:pointer;font-weight:500;outline:none}
+.sDone{background:#d4f5e0;color:#1a6b3a;border-color:#7dd6a0}
+.sProg{background:var(--yellow-soft);color:#8a6800;border-color:#f0c840}
+.sInit{background:var(--cyan-soft);color:#1a5e8a;border-color:#7ac4e8}
+.sBlok{background:#fde8e8;color:#8b1a1a;border-color:#f0a0a0}
+.sPend{background:var(--white);color:var(--ink-muted);border-color:var(--border)}
+.sNa{background:#f1efe8;color:#b0a898;border-color:#d8d3c8;text-decoration:line-through;opacity:.7}
+
+/* NOTES */
+.ni{font-family:'DM Sans',sans-serif;font-size:12.5px;padding:5px 9px;border:1px solid var(--border);border-radius:6px;background:transparent;color:var(--ink-soft);width:100%;min-width:110px;outline:none;transition:border-color .2s}
+.ni:focus{border-color:var(--blue);background:var(--white)}
+
+/* DASHBOARD */
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+.dcard{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.4rem}
+.dcard h3{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:1.2rem}
+.erow{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.erow .elbl{flex:0 0 auto}
+.erow .ename{flex:1;color:var(--ink-soft);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.erow .ebg{flex:2;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.erow .efill{height:100%;border-radius:3px;transition:width .6s}
+.erow .epct{min-width:32px;text-align:right;font-size:12px;color:var(--ink-muted);font-weight:500}
+.rrow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+.rrow:last-child{border:none}
+.av{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--yellow);color:var(--ink);font-size:10px;font-weight:700;margin-right:8px;flex-shrink:0}
+.pitem{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border);gap:10px;font-size:13px}
+.pitem:last-child{border:none}
+.ptask{color:var(--ink-soft);flex:1;line-height:1.4}
+.pmth{font-size:11px;font-weight:600;color:var(--ink-muted);flex-shrink:0}
+
+/* KPIs */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:2rem}
+.kpi-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.25rem;position:relative;overflow:hidden}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.kpi-card.green::before{background:#4ade80}
+.kpi-card.yellow::before{background:var(--yellow)}
+.kpi-card.red::before{background:#f87171}
+.kpi-card.gray::before{background:var(--border)}
+.kpi-eje{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:6px}
+.kpi-name{font-size:14px;font-weight:500;color:var(--ink);line-height:1.3;margin-bottom:12px}
+.kpi-row{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:10px;gap:10px}
+.kpi-actual-wrap{flex:1}
+.kpi-actual-lbl{font-size:10px;color:var(--ink-muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px}
+.kpi-actual-input{font-family:'DM Serif Display',serif;font-size:32px;line-height:1;color:var(--ink);border:none;background:transparent;width:100%;outline:none;padding:0}
+.kpi-actual-input:focus{border-bottom:1.5px solid var(--blue)}
+.kpi-unit{font-size:13px;color:var(--ink-muted);margin-left:2px}
+.kpi-meta-wrap{text-align:right;flex-shrink:0}
+.kpi-meta-lbl{font-size:10px;color:var(--ink-muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px}
+.kpi-meta-val{font-size:16px;font-weight:600;color:var(--ink-muted)}
+.kpi-bar-bg{height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:8px}
+.kpi-bar-fill{height:100%;border-radius:2px;transition:width .5s}
+.kpi-note-input{font-family:'DM Sans',sans-serif;font-size:12px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;background:transparent;color:var(--ink-muted);width:100%;outline:none}
+.kpi-note-input:focus{border-color:var(--blue);background:var(--white)}
+.kpi-semaforo{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;margin-bottom:8px}
+.sem-dot{width:8px;height:8px;border-radius:50%}
+.kpi-section-title{font-family:'DM Serif Display',serif;font-size:22px;color:var(--ink);margin-bottom:1rem;margin-top:.5rem}
+.kpi-section-title em{font-style:italic;color:var(--pink)}
+
+/* VACANTES */
+.vac-summary{display:flex;gap:10px;margin-bottom:1.75rem;flex-wrap:wrap}
+.vac-pill{display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:100px;border:1px solid var(--border);background:var(--white);font-size:13px;color:var(--ink-soft)}
+.vac-pill strong{font-weight:600;font-size:15px}
+.vac-add-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:8px;background:var(--blue);color:#fff;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:opacity .2s}
+.vac-add-btn:hover{opacity:.85}
+.vac-table{width:100%;border-collapse:collapse;font-size:13px}
+.vac-table thead tr{border-bottom:2px solid var(--ink)}
+.vac-table th{text-align:left;padding:9px 10px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);white-space:nowrap}
+.vac-table td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--ink-soft)}
+.vac-table tr:hover td{background:var(--white)}
+.vac-input{font-family:'DM Sans',sans-serif;font-size:13px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:transparent;color:var(--ink);outline:none;width:100%;min-width:80px}
+.vac-input:focus{border-color:var(--blue);background:var(--white)}
+.vac-input[type=date]{min-width:120px;cursor:pointer}
+.vstatus{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap;border:1.5px solid}
+.vs-tiempo{background:#d4f5e0;color:#1a6b3a;border-color:#7dd6a0}
+.vs-atrasada{background:var(--yellow-soft);color:#8a6800;border-color:#f0c840}
+.vs-fuera{background:#ffe8d4;color:#b84a00;border-color:#f0a878}
+.vs-urgente{background:#fde8e8;color:#8b1a1a;border-color:#f0a0a0}
+.vs-cubierta{background:var(--blue-soft);color:var(--blue);border-color:#a0b4ff}
+.vs-cubierta-fuera{background:#ede8ff;color:#4a28c4;border-color:#b8a8f0}
+.vs-por-ingresar{background:var(--cream);color:var(--ink-muted);border-color:var(--border)}
+.dias-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:12px;font-weight:600}
+.del-btn{background:none;border:none;cursor:pointer;color:var(--ink-faint);font-size:16px;padding:2px 6px;border-radius:4px;line-height:1}
+.del-btn:hover{color:#8b1a1a;background:#fde8e8}
+.vac-sel-row{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-muted);margin-top:4px}
+.tiempo-chip{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;background:var(--blue-soft);color:var(--blue)}
+
+/* EJECUTIVO */
+.exec-big{display:grid;grid-template-columns:auto 1fr 1fr 1fr;gap:14px;margin-bottom:18px;align-items:stretch}
+.ring-card{background:#f6f5ec;border-radius:14px;padding:1.5rem 1.75rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border:1px solid #e0d8ce}
+.ring-card .rlbl{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#8a7f75}
+.e-card{background:#fad83f;border-radius:14px;padding:1.25rem 1.5rem;display:flex;flex-direction:column;justify-content:space-between;border:none}
+.e-card.blue{background:#4563ff}
+.e-card.cream{background:#f6f5ec;border:1px solid #e0d8ce}
+.e-card .elbl{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(16,16,15,.5);margin-bottom:8px}
+.e-card.blue .elbl{color:rgba(246,245,236,.5)}
+.e-card .enum{font-family:'DM Serif Display',serif;font-size:48px;line-height:1;color:#10100f}
+.e-card.blue .enum{color:#f6f5ec}
+.e-card .esub{font-size:12px;color:rgba(16,16,15,.5);margin-top:6px}
+.e-card.blue .esub{color:rgba(246,245,236,.5)}
+.exec-mid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+.exec-card{background:#f6f5ec;border:1px solid #e0d8ce;border-radius:14px;padding:1.25rem 1.5rem}
+.exec-card h3{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#8a7f75;margin-bottom:1.1rem}
+.ex-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.ex-bar-row:last-child{margin-bottom:0}
+.ex-bar-code{font-size:11px;font-weight:600;width:26px;flex-shrink:0;color:#8a7f75}
+.ex-bar-bg{flex:1;height:10px;background:#e0d8ce;border-radius:5px;overflow:hidden}
+.ex-bar-fill{height:100%;border-radius:5px;transition:width .6s ease}
+.ex-bar-pct{font-size:12px;font-weight:600;min-width:34px;text-align:right;color:#10100f}
+.heat-wrap{background:#f6f5ec;border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:18px;border:1px solid #e0d8ce}
+.heat-wrap h3{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#8a7f75;margin-bottom:1rem}
+.heat-blocks{display:flex;gap:5px}
+.hb{flex:1;border-radius:8px;padding:8px 4px 6px;text-align:center;cursor:default}
+.hb .hbm{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.hb .hbp{font-size:14px;font-weight:500}
+.hb.hb-current{outline:2px solid #C40E91;outline-offset:2px}
+.exec-bot{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.st-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #e0d8ce}
+.st-row:last-child{border:none}
+.st-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.st-nm{font-size:13px;color:#3d3530;flex:1}
+.st-bg{flex:2;height:7px;background:#e0d8ce;border-radius:4px;overflow:hidden}
+.st-fill{height:100%;border-radius:4px}
+.st-n{font-size:13px;font-weight:600;color:#10100f;min-width:24px;text-align:right}
+.pend-row{display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px solid #e0d8ce;align-items:flex-start}
+.pend-row:last-child{border:none}
+.pend-nm{font-size:12px;color:#3d3530;flex:1;line-height:1.4}
+.pend-mes{font-size:11px;font-weight:600;color:#8a7f75;flex-shrink:0;background:#fff;padding:2px 7px;border-radius:10px;border:1px solid #e0d8ce}
+
+/* CONSULTORAS */
+.cons-header{background:#f6f5ec;border:1px solid #e0d8ce;border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:center}
+.cons-header h2{font-family:'DM Serif Display',serif;font-size:28px;line-height:1.1;color:#10100f}
+.cons-header h2 em{font-style:italic;color:#C40E91}
+.cons-header p{font-size:13px;color:#8a7f75;margin-top:4px}
+.cons-meta{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.cons-chip{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;background:#fff;border:1px solid #e0d8ce;color:#8a7f75;white-space:nowrap}
+.cons-chip.active{background:#fef8d0;border-color:#f0c840;color:#8a6800}
+.cons-section{margin-bottom:1.75rem}
+.cons-section-hdr{display:flex;align-items:center;gap:10px;margin-bottom:1rem;padding-bottom:8px;border-bottom:2px solid #10100f}
+.cons-section-hdr h3{font-size:14px;font-weight:600;color:#10100f;letter-spacing:.01em}
+.cons-badge{padding:3px 10px;border-radius:10px;font-size:11px;font-weight:600}
+.cons-badge.hostech{background:#fad83f;color:#10100f}
+.cons-badge.hellena{background:#4563ff;color:#fff}
+.cons-progress{margin-left:auto;font-size:12px;color:#8a7f75;font-weight:500}
+.cons-table{width:100%;border-collapse:collapse;font-size:13px}
+.cons-table th{text-align:left;padding:8px 10px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8a7f75;border-bottom:0.5px solid #e0d8ce;white-space:nowrap}
+.cons-table td{padding:9px 10px;border-bottom:0.5px solid #e0d8ce;vertical-align:middle;color:#3d3530}
+.cons-table tr:hover td{background:#fff}
+.cons-table tr:last-child td{border-bottom:none}
+.etapa-hdr td{background:#f6f5ec;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8a7f75;padding:6px 10px}
+.cons-sel{font-family:'DM Sans',sans-serif;font-size:12px;padding:3px 8px;border-radius:16px;border:1.5px solid;cursor:pointer;font-weight:500;outline:none;white-space:nowrap}
+.cs-pend{background:#fff;color:#8a7f75;border-color:#e0d8ce}
+.cs-prog{background:#fef8d0;color:#8a6800;border-color:#f0c840}
+.cs-done{background:#d4f5e0;color:#1a6b3a;border-color:#7dd6a0}
+.cs-wait{background:#dce2ff;color:#2a3db0;border-color:#a0b0ff}
+.cs-late{background:#fde8e8;color:#8b1a1a;border-color:#f0a0a0}
+.cons-ni{font-family:'DM Sans',sans-serif;font-size:12px;padding:4px 8px;border:1px solid #e0d8ce;border-radius:6px;background:transparent;color:#3d3530;width:100%;outline:none}
+.cons-ni:focus{border-color:#4563ff;background:#fff}
+.cons-semaforo{display:flex;gap:10px;margin-bottom:1.5rem;flex-wrap:wrap}
+.cs-pill{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;border:1px solid #e0d8ce;background:#fff;font-size:12px;color:#3d3530}
+.cs-pill strong{font-weight:600;font-size:14px}
+/* ── RESPONSIVE TABLET (≤900px) ── */
+@media(max-width:900px){
+  .exec-big{grid-template-columns:1fr 1fr}
+  .exec-mid,.exec-bot,.dgrid,.dash-grid,.bars-grid,.bottom-row{grid-template-columns:1fr}
+  .heat-blocks{gap:3px}
+  .hb .hbp{font-size:12px}
+  .hb .hbm{font-size:9px}
+}
+
+/* ── RESPONSIVE MOBILE (≤768px) ── */
+@media(max-width:768px){
+  /* Layout base */
+  .mast-in{padding:0 1rem;height:52px}
+  .logo{font-size:16px;gap:7px}
+  .logo span{display:none}
+  .saved-bar{font-size:10px}
+
+  /* Nav: scroll horizontal */
+  .nav-in{padding:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .nav-in::-webkit-scrollbar{display:none}
+  .ntab{padding:11px 14px;font-size:12px;white-space:nowrap;flex-shrink:0}
+
+  /* Main padding */
+  .main{padding:1.2rem 1rem 3rem}
+
+  /* Hero */
+  .hero{grid-template-columns:1fr;gap:.75rem;margin-bottom:1rem;padding-bottom:1rem}
+  .hero h2{font-size:26px}
+  .hero p{font-size:12px}
+  .big-n{font-size:44px;text-align:left}
+  .pct-lbl{text-align:left;font-size:10px}
+
+  /* Progress bar */
+  .prog-strip{margin-bottom:1.2rem}
+
+  /* Pills row */
+  .pills{gap:6px;margin-bottom:1.2rem}
+  .pill{font-size:11px;padding:5px 10px}
+  .pill strong{font-size:13px}
+
+  /* Filters */
+  .filters{gap:6px}
+  .filters select.fs{font-size:12px;padding:6px 10px}
+  .filters input.fs{font-size:12px;padding:6px 10px;min-width:0;width:100%}
+
+  /* Table: hide less important cols, enable scroll */
+  .twrap,.vac-table{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{font-size:12px}
+  th{font-size:10px;padding:7px 8px}
+  td{padding:8px 8px}
+  /* Hide eje badge col and mes col on tasks table */
+  .task-table th:nth-child(1),.task-table td:nth-child(1),
+  .task-table th:nth-child(2),.task-table td:nth-child(2){display:none}
+
+  /* Ejecutivo */
+  .exec-big{grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+  .ring-card{padding:1rem}
+  .ring-card svg{width:90px;height:90px}
+  .e-card{padding:1rem}
+  .e-card .enum{font-size:36px}
+  .e-card .elbl{font-size:10px}
+  .exec-mid,.exec-bot{grid-template-columns:1fr;gap:10px}
+  .exec-card{padding:1rem}
+  .heat-wrap{padding:1rem}
+  .heat-blocks{gap:3px}
+  .hb{padding:6px 2px 5px;border-radius:6px}
+  .hb .hbp{font-size:11px}
+  .hb .hbm{font-size:8px;letter-spacing:0}
+  .ex-bar-row{gap:6px;margin-bottom:8px}
+  .ex-bar-code{font-size:10px;width:20px}
+  .ex-bar-pct{font-size:11px;min-width:28px}
+
+  /* Dashboard */
+  .dgrid{grid-template-columns:1fr;gap:10px;margin-bottom:10px}
+  .dcard{padding:1rem}
+  .erow .ename{font-size:11px}
+
+  /* KPIs */
+  .kpi-grid{grid-template-columns:1fr;gap:12px}
+  .kpi-card{padding:1rem}
+  .kpi-actual-input{font-size:26px}
+  .kpi-section-title{font-size:18px}
+
+  /* Vacantes */
+  .vac-summary{gap:6px}
+  .vac-pill{font-size:11px;padding:5px 10px}
+  .vac-table th,.vac-table td{font-size:11px;padding:7px 7px}
+  /* hide less critical cols */
+  .vac-table th:nth-child(4),.vac-table td:nth-child(4),
+  .vac-table th:nth-child(5),.vac-table td:nth-child(5){display:none}
+
+  /* Consultoras */
+  .cons-header{grid-template-columns:1fr;gap:.75rem;padding:1rem}
+  .cons-header h2{font-size:22px}
+  .cons-meta{justify-content:flex-start}
+  .cons-chip{font-size:10px;padding:3px 8px}
+  .cons-section-hdr{flex-wrap:wrap;gap:6px}
+  .cons-table{font-size:12px}
+  .cons-table th{font-size:10px;padding:6px 7px}
+  .cons-table td{padding:7px 7px}
+  /* hide etapa col on cons tables */
+  .cons-table th:nth-child(1),.cons-table td:nth-child(1){display:none}
+  .cons-semaforo{gap:6px}
+  .cs-pill{font-size:11px;padding:5px 10px}
+}
+
+/* ── RESPONSIVE SMALL MOBILE (≤480px) ── */
+@media(max-width:480px){
+  .exec-big{grid-template-columns:1fr}
+  .ring-card{flex-direction:row;align-items:center;gap:1rem;padding:.875rem 1rem}
+  .e-card .enum{font-size:30px}
+  .mast-in{height:48px}
+  .logo{font-size:15px}
+  .ntab{padding:10px 12px;font-size:11px}
+}
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <div class="mast-in">
+    <div class="logo">
+      <span class="logo-dot"></span>
+      Hostech
+      <span>Plan RH 2026</span>
+    </div>
+    <div class="saved-bar"><span class="sdot"></span><span id="saved-lbl">Cargando...</span></div>
+  </div>
+</header>
+
+<nav class="nav">
+  <div class="nav-in">
+    <button class="ntab active" onclick="showTab('ejecutivo',this)">Ejecutivo</button>
+    <button class="ntab" onclick="showTab('tareas',this)">Tareas</button>
+    <button class="ntab" onclick="showTab('dashboard',this)">Dashboard</button>
+    <button class="ntab" onclick="showTab('kpis',this)">KPIs</button>
+    <button class="ntab" onclick="showTab('vacantes',this)">Vacantes</button>
+    <button class="ntab" onclick="showTab('hellena',this)">Hellena</button>
+    <button class="ntab" onclick="showTab('sueldos',this)">Sueldos y Salarios</button>
+  </div>
+</nav>
+
+<main class="main">
+
+  <div id="tab-tareas" style="display:none">
+    <div class="hero">
+      <div>
+        <h2>Plan de <em>Recursos<br>Humanos</em></h2>
+        <p>Seguimiento semanal · Paloma &amp; Alexa</p>
+      </div>
+      <div>
+        <div class="big-n" id="hero-pct">–<span>%</span></div>
+        <div class="pct-lbl">Avance general</div>
+      </div>
+    </div>
+    <div class="prog-strip"><div class="prog-fill" id="prog" style="width:0%"></div></div>
+    <div class="pills" id="pills"></div>
+    <div class="filters">
+      <select class="fs" id="fMes" onchange="render()">
+        <option value="">Todos los meses</option>
+        <option>Enero</option><option>Febrero</option><option>Marzo</option><option>Abril</option>
+        <option>Mayo</option><option>Junio</option><option>Julio</option><option>Agosto</option>
+        <option>Septiembre</option><option>Octubre</option><option>Noviembre</option><option>Diciembre</option>
+      </select>
+      <select class="fs" id="fEje" onchange="render()">
+        <option value="">Todos los ejes</option>
+        <option>Atracción y Retención de Talento</option>
+        <option>Capacitación</option>
+        <option>Desarrollo y Formación</option>
+        <option>Cultura y Comunicación interna</option>
+        <option>Procesos y Estructura RH</option>
+      </select>
+      <select class="fs" id="fSt" onchange="render()">
+        <option value="">Todos los estados</option>
+        <option>Completada</option><option>Iniciada</option><option>En progreso</option>
+        <option>Sin iniciar</option><option>Bloqueada</option><option>No aplica este año</option>
+      </select>
+      <input class="fs" id="fQ" placeholder="Buscar tarea o responsable..." oninput="render()">
+    </div>
+    <div class="twrap">
+      <table>
+        <thead><tr>
+          <th style="width:72px">Mes</th>
+          <th style="width:56px">Eje</th>
+          <th>Acción</th>
+          <th style="width:120px">Responsable</th>
+          <th style="width:118px">Estado</th>
+          <th>Notas</th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="tab-dashboard" style="display:none">
+    <div class="hero" style="margin-bottom:1.5rem;padding-bottom:1.5rem">
+      <div><h2>Dashboard <em>2026</em></h2><p>Vista ejecutiva de avance</p></div>
+      <div><div class="big-n" id="dpct">–<span>%</span></div><div class="pct-lbl">Completado</div></div>
+    </div>
+    <div class="dgrid">
+      <div class="dcard" id="cejes"><h3>Avance por eje estratégico</h3></div>
+      <div class="dcard" id="cmeses"><h3>Completadas por mes</h3></div>
+    </div>
+    <div class="dgrid">
+      <div class="dcard" id="cresp"><h3>Carga por responsable</h3></div>
+      <div class="dcard" id="cpend"><h3>Próximas pendientes</h3></div>
+    </div>
+  </div>
+
+  <!-- ── KPIs ── -->
+  <div id="tab-kpis" style="display:none">
+    <div class="hero" style="margin-bottom:1.5rem;padding-bottom:1.5rem">
+      <div><h2>Indicadores de <em>Desempeño</em></h2><p>Seguimiento mensual de KPIs · actualiza el valor real y agrega notas</p></div>
+    </div>
+
+    <div class="kpi-section-title">Atracción y <em>Retención</em></div>
+    <div class="kpi-grid" id="kpi-AT"></div>
+
+    <div class="kpi-section-title"><em>Capacitación</em></div>
+    <div class="kpi-grid" id="kpi-CA"></div>
+
+    <div class="kpi-section-title">Desarrollo y <em>Formación</em></div>
+    <div class="kpi-grid" id="kpi-DF"></div>
+
+    <div class="kpi-section-title">Cultura y <em>Comunicación</em></div>
+    <div class="kpi-grid" id="kpi-CC"></div>
+
+    <div class="kpi-section-title">Procesos y <em>Estructura RH</em></div>
+    <div class="kpi-grid" id="kpi-PE"></div>
+  </div>
+
+  <!-- ── EJECUTIVO ── -->
+  <div id="tab-ejecutivo">
+
+    <!-- BIG NUMBERS -->
+    <div class="exec-big">
+      <div class="ring-card">
+        <div class="rlbl">Avance general</div>
+        <svg id="exec-ring" width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="48" fill="none" stroke="#e0d8ce" stroke-width="10"/>
+          <circle id="exec-ring-fill" cx="60" cy="60" r="48" fill="none" stroke="#C40E91" stroke-width="10"
+            stroke-dasharray="301.6" stroke-dashoffset="301.6"
+            stroke-linecap="round" transform="rotate(-90 60 60)"/>
+          <text id="exec-ring-txt" x="60" y="64" text-anchor="middle" dominant-baseline="central"
+            font-family="'DM Serif Display',serif" font-size="26" fill="#10100f">0%</text>
+        </svg>
+        <div style="font-size:12px;color:var(--ink-faint)" id="exec-ring-sub">de 58 tareas</div>
+      </div>
+      <div class="e-card">
+        <div class="elbl">Completadas</div>
+        <div class="enum" id="exec-done">0</div>
+        <div class="esub">tareas cerradas</div>
+      </div>
+      <div class="e-card blue">
+        <div class="elbl">En progreso</div>
+        <div class="enum" id="exec-prog">0</div>
+        <div class="esub">tareas activas</div>
+      </div>
+      <div class="e-card cream">
+        <div class="elbl">Vacantes activas</div>
+        <div class="enum" id="exec-vac">0</div>
+        <div class="esub">en proceso</div>
+      </div>
+    </div>
+
+    <!-- MONTH HEATMAP -->
+    <div class="heat-wrap">
+      <h3>Progreso por mes</h3>
+      <div class="heat-blocks" id="exec-heat"></div>
+    </div>
+
+    <!-- MID ROW -->
+    <div class="exec-mid">
+      <div class="exec-card">
+        <h3>Avance por eje estratégico</h3>
+        <div id="exec-ejes"></div>
+      </div>
+      <div class="exec-card">
+        <h3>Estado de tareas</h3>
+        <div id="exec-status"></div>
+      </div>
+    </div>
+
+    <!-- BOTTOM ROW -->
+    <div class="exec-bot">
+      <div class="exec-card">
+        <h3>Tareas del mes actual</h3>
+        <div id="exec-pending"></div>
+      </div>
+      <div class="exec-card">
+        <h3>Vacantes en seguimiento</h3>
+        <div id="exec-vacantes"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── VACANTES ── -->
+  <div id="tab-vacantes" style="display:none">
+    <div class="hero" style="margin-bottom:1.5rem;padding-bottom:1.5rem">
+      <div>
+        <h2>Cobertura de <em>Vacantes</em></h2>
+        <p>Seguimiento de posiciones activas · días en proceso y tiempos de ingreso</p>
+      </div>
+      <div>
+        <button class="vac-add-btn" onclick="addVacante()">+ Nueva vacante</button>
+      </div>
+    </div>
+    <div class="vac-summary" id="vac-summary"></div>
+    <div style="overflow-x:auto">
+      <table class="vac-table">
+        <thead><tr>
+          <th style="width:160px">Puesto</th>
+          <th style="width:100px">Área</th>
+          <th style="width:110px">Fecha solicitud</th>
+          <th style="width:60px">Días háb.</th>
+          <th style="width:80px">Meta (háb.)</th>
+          <th style="width:130px">Estado</th>
+          <th style="width:115px">Fecha selección</th>
+          <th style="width:115px">Fecha ingreso</th>
+          <th style="width:80px">Sel → Ingreso</th>
+          <th style="width:32px"></th>
+        </tr></thead>
+        <tbody id="vac-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── HELLENA ── -->
+  <div id="tab-hellena" style="display:none">
+    <div class="cons-header">
+      <div>
+        <h2>Hellena <em>Business Lab</em></h2>
+        <p>Liderazgo y comunicación para sostener el crecimiento exponencial · Inicio: 29 enero 2026</p>
+      </div>
+      <div class="cons-meta">
+        <span class="cons-chip active">Etapa 1 · Diagnóstico</span>
+        <span class="cons-chip active">Quick Wins</span>
+        <span class="cons-chip">Etapa 2 · Estrategia</span>
+        <span class="cons-chip">Bring to Life</span>
+      </div>
+    </div>
+
+    <!-- ANILLO DE AVANCE GENERAL -->
+    <div style="background:#f6f5ec;border:1px solid #e0d8ce;border-radius:14px;padding:1.25rem 1.5rem;display:flex;align-items:center;gap:2rem;margin-bottom:1.5rem">
+      <svg width="100" height="100" viewBox="0 0 100 100" style="flex-shrink:0">
+        <circle cx="50" cy="50" r="40" fill="none" stroke="#e0d8ce" stroke-width="9"/>
+        <circle id="ring-hellena-total" cx="50" cy="50" r="40" fill="none" stroke="#C40E91" stroke-width="9"
+          stroke-dasharray="251.3" stroke-dashoffset="251.3"
+          stroke-linecap="round" transform="rotate(-90 50 50)"/>
+        <text id="ring-hellena-total-txt" x="50" y="54" text-anchor="middle" dominant-baseline="central"
+          font-family="'DM Serif Display',serif" font-size="22" fill="#10100f">0%</text>
+      </svg>
+      <div style="flex:1">
+        <div style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8a7f75;margin-bottom:8px">Avance general del proyecto</div>
+        <div id="ring-hellena-total-sub" style="font-size:13px;color:#3d3530;margin-bottom:10px"></div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap">
+          <div style="font-size:12px;color:#8a7f75;display:flex;align-items:center;gap:5px"><span style="width:9px;height:9px;border-radius:50%;background:#fad83f;display:inline-block"></span>Hostech: <strong id="ring-h-sub" style="color:#10100f">0%</strong></div>
+          <div style="font-size:12px;color:#8a7f75;display:flex;align-items:center;gap:5px"><span style="width:9px;height:9px;border-radius:50%;background:#4563ff;display:inline-block"></span>Hellena: <strong id="ring-e-sub" style="color:#10100f">0%</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AVANCE POR ETAPA -->
+    <div style="background:#fff;border:1px solid #e0d8ce;border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1.5rem">
+      <div style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8a7f75;margin-bottom:1rem">Avance por etapa</div>
+      <div id="hellena-etapas"></div>
+    </div>
+
+    <div class="cons-semaforo" id="hellena-pills"></div>
+
+    <!-- HOSTECH → HELLENA -->
+    <div class="cons-section">
+      <div class="cons-section-hdr">
+        <span class="cons-badge hostech">Hostech entrega</span>
+        <h3>Lo que yo les debo dar</h3>
+        <span class="cons-progress" id="h-hostech-pct"></span>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="cons-table">
+          <thead><tr>
+            <th style="width:90px">Etapa</th>
+            <th>Entregable / Acción</th>
+            <th style="width:110px">Fecha compromiso</th>
+            <th style="width:120px">Estado</th>
+            <th>Notas</th>
+          </tr></thead>
+          <tbody id="hellena-hostech-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- HELLENA → HOSTECH -->
+    <div class="cons-section">
+      <div class="cons-section-hdr">
+        <span class="cons-badge hellena">Hellena entrega</span>
+        <h3>Lo que ellas me deben dar</h3>
+        <span class="cons-progress" id="h-hellena-pct"></span>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="cons-table">
+          <thead><tr>
+            <th style="width:90px">Etapa</th>
+            <th>Entregable</th>
+            <th style="width:110px">Fecha compromiso</th>
+            <th style="width:120px">Estado</th>
+            <th>Notas</th>
+          </tr></thead>
+          <tbody id="hellena-hellena-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SUELDOS Y SALARIOS ── -->
+  <div id="tab-sueldos" style="display:none">
+    <div class="cons-header">
+      <div>
+        <h2>Sueldos y <em>Salarios</em></h2>
+        <p>Sistemas Humanos de México · 46 puestos · Inicio: abril 2026 · Cotización SH-C-J-20260128-01</p>
+      </div>
+      <div class="cons-meta">
+        <span class="cons-chip active">Etapa 1 · Valuación</span>
+        <span class="cons-chip active">Etapa 2 · Competitividad</span>
+        <span class="cons-chip">Etapa 3 · Tabulador</span>
+        <span class="cons-chip">Etapa 4 · Política</span>
+      </div>
+    </div>
+
+    <!-- ANILLO -->
+    <div style="background:#f6f5ec;border:1px solid #e0d8ce;border-radius:14px;padding:1.25rem 1.5rem;display:flex;align-items:center;gap:2rem;margin-bottom:1.5rem">
+      <svg width="100" height="100" viewBox="0 0 100 100" style="flex-shrink:0">
+        <circle cx="50" cy="50" r="40" fill="none" stroke="#e0d8ce" stroke-width="9"/>
+        <circle id="ring-sh-total" cx="50" cy="50" r="40" fill="none" stroke="#C40E91" stroke-width="9"
+          stroke-dasharray="251.3" stroke-dashoffset="251.3"
+          stroke-linecap="round" transform="rotate(-90 50 50)"/>
+        <text id="ring-sh-total-txt" x="50" y="54" text-anchor="middle" dominant-baseline="central"
+          font-family="'DM Serif Display',serif" font-size="22" fill="#10100f">0%</text>
+      </svg>
+      <div style="flex:1">
+        <div style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8a7f75;margin-bottom:8px">Avance general del proyecto</div>
+        <div id="ring-sh-sub" style="font-size:13px;color:#3d3530;margin-bottom:10px"></div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap">
+          <div style="font-size:12px;color:#8a7f75;display:flex;align-items:center;gap:5px"><span style="width:9px;height:9px;border-radius:50%;background:#fad83f;display:inline-block"></span>Hostech: <strong id="ring-sh-h" style="color:#10100f">0%</strong></div>
+          <div style="font-size:12px;color:#8a7f75;display:flex;align-items:center;gap:5px"><span style="width:9px;height:9px;border-radius:50%;background:#4563ff;display:inline-block"></span>SH México: <strong id="ring-sh-e" style="color:#10100f">0%</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ETAPAS -->
+    <div style="background:#fff;border:1px solid #e0d8ce;border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1.5rem">
+      <div style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8a7f75;margin-bottom:1rem">Avance por etapa</div>
+      <div id="sh-etapas"></div>
+    </div>
+
+    <div class="cons-semaforo" id="sh-pills"></div>
+
+    <!-- HOSTECH → SH -->
+    <div class="cons-section">
+      <div class="cons-section-hdr">
+        <span class="cons-badge hostech">Hostech entrega</span>
+        <h3>Lo que yo les debo dar</h3>
+        <span class="cons-progress" id="h-sh-hostech-pct"></span>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="cons-table">
+          <thead><tr>
+            <th style="width:90px">Etapa</th>
+            <th>Información requerida</th>
+            <th style="width:110px">Fecha compromiso</th>
+            <th style="width:120px">Estado</th>
+            <th>Notas</th>
+          </tr></thead>
+          <tbody id="sh-hostech-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SH → HOSTECH -->
+    <div class="cons-section">
+      <div class="cons-section-hdr">
+        <span class="cons-badge hellena" style="background:#fad83f;color:#10100f">SH entrega</span>
+        <h3>Lo que ellos me deben dar</h3>
+        <span class="cons-progress" id="h-sh-sh-pct"></span>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="cons-table">
+          <thead><tr>
+            <th style="width:90px">Etapa</th>
+            <th>Entregable</th>
+            <th style="width:110px">Fecha compromiso</th>
+            <th style="width:120px">Estado</th>
+            <th>Notas</th>
+          </tr></thead>
+          <tbody id="sh-sh-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// ── GOOGLE SHEETS SYNC ──
+const GAS_URL='https://script.google.com/macros/s/AKfycbyspghtBsVJHGbnZDpYW56mR_QzKNBq29Sq3Dd3Sjy4TPPUlhzDQ3jwHLeiOKg4eIlB/exec';
+
+function setSavedLabel(txt){ const el=document.getElementById('saved-lbl'); if(el) el.textContent=txt; }
+
+async function syncToSheets(key, data){
+  try{
+    await fetch(GAS_URL,{
+      method:'POST',
+      headers:{'Content-Type':'text/plain'},
+      body:JSON.stringify({key, data}),
+      mode:'no-cors'
+    });
+  }catch(e){ console.warn('Sync error:',e); }
+}
+
+async function loadFromSheets(){
+  try{
+    const res = await fetch(GAS_URL, {redirect:'follow'});
+    const json = await res.json();
+    return json.ok ? json.data : null;
+  }catch(e){ return null; }
+}
+
+async function initApp(){
+  setSavedLabel('Cargando desde la nube...');
+  const remote = await loadFromSheets();
+  if(remote){
+    if(remote.tareas)  { tasks=remote.tareas;  localStorage.setItem(KEY,JSON.stringify(tasks)); }
+    if(remote.vacantes){ vacs=remote.vacantes;  localStorage.setItem(VAC_KEY,JSON.stringify(vacs)); }
+    if(remote.kpis)    { kpis=remote.kpis;      localStorage.setItem(KPI_KEY,JSON.stringify(kpis)); }
+    if(remote.hellena) { hbl=remote.hellena;    localStorage.setItem(HBL_KEY,JSON.stringify(hbl)); }
+    if(remote.sueldos) { sh=remote.sueldos;     localStorage.setItem(SH_KEY,JSON.stringify(sh)); }
+    setSavedLabel('Datos sincronizados ✓');
+  } else {
+    setSavedLabel('Modo local · sin conexión');
+  }
+  render();
+  renderEjecutivo();
+}
+
+const KEY='hostech_rh2026_v1';
+const MES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const ESHORT={'Atracción y Retención de Talento':'AT','Capacitación':'CA','Desarrollo y Formación':'DF','Cultura y Comunicación interna':'CC','Procesos y Estructura RH':'PE'};
+const ECOL={AT:'#4563ff',CA:'#1a6b3a',DF:'#4a28c4',CC:'#8a6800',PE:'#b84a00'};
+const SCLS={'Completada':'sDone','Iniciada':'sInit','En progreso':'sProg','Bloqueada':'sBlok','Sin iniciar':'sPend','No aplica este año':'sNa'};
+
+const SEED=[
+  {id:1,mes:'Enero',eje:'Procesos y Estructura RH',accion:'Planeación y licitación de consultoras',resp:'Paloma/DG',status:'Completada',notas:'Plan del área, recursos solicitados y costos'},
+  {id:2,mes:'Enero',eje:'Desarrollo y Formación',accion:'Diccionario de competencias final',resp:'Paloma/DG',status:'Completada',notas:'Diccionario final y presentación al equipo'},
+  {id:3,mes:'Enero',eje:'Cultura y Comunicación interna',accion:'Reinducción de las áreas internas',resp:'Alexa',status:'Completada',notas:'Encuesta de satisfacción realizada'},
+  {id:4,mes:'Enero',eje:'Procesos y Estructura RH',accion:'Aprobación plan final de RH y presupuesto',resp:'Paloma/DG',status:'Completada',notas:'Pendiente revisión con consultoría de sueldos'},
+  {id:5,mes:'Febrero',eje:'Cultura y Comunicación interna',accion:'Arranque consultoría Hellena',resp:'Paloma/DG',status:'Completada',notas:'Kick off 29 enero realizado'},
+  {id:6,mes:'Febrero',eje:'Atracción y Retención de Talento',accion:'Reclutamiento posiciones clave de RH',resp:'Alexa',status:'En progreso',notas:'Entrevistas coordinador de reclutamiento iniciadas'},
+  {id:7,mes:'Febrero',eje:'Procesos y Estructura RH',accion:'Consultoría legal',resp:'Paloma/Mariana/Rosy',status:'Completada',notas:'Contratos, aviso de privacidad y convenios'},
+  {id:8,mes:'Febrero',eje:'Procesos y Estructura RH',accion:'Planeación de plantilla con todo el equipo',resp:'Toda la plantilla',status:'Sin iniciar',notas:'Pendiente que equipos compartan necesidades'},
+  {id:9,mes:'Febrero',eje:'Procesos y Estructura RH',accion:'Instalación de señalética y extintores',resp:'Ale/Paloma',status:'Completada',notas:'Señalamientos, extintores, detectores colocados'},
+  {id:10,mes:'Marzo',eje:'Desarrollo y Formación',accion:'Workshop co-construcción ecosistema de comunicación',resp:'Paloma/DG',status:'Completada',notas:'Agendado 17 de marzo'},
+  {id:11,mes:'Marzo',eje:'Desarrollo y Formación',accion:'Entrevistas grupales y reporte de hallazgos (líderes)',resp:'Hellena/Paloma',status:'Completada',notas:'Agendado 25 y 26 feb'},
+  {id:12,mes:'Marzo',eje:'Desarrollo y Formación',accion:'Pruebas a líderes VIA CHARACTER',resp:'Hellena/Paloma',status:'Completada',notas:'Pruebas terminadas 11 de marzo'},
+  {id:13,mes:'Marzo',eje:'Desarrollo y Formación',accion:'Encuesta general de comunicación (toda la empresa)',resp:'Paloma/Hellena',status:'Completada',notas:'70% de la población respondió'},
+  {id:14,mes:'Marzo',eje:'Atracción y Retención de Talento',accion:'Inicia reclutamiento equipo de ventas y reservas',resp:'DC/Reclutamiento',status:'Sin iniciar',notas:'Pendiente revisar con las áreas'},
+  {id:15,mes:'Marzo',eje:'Cultura y Comunicación interna',accion:'Workshop líderes Hostech — Taller de Liderazgo (Hellena)',resp:'Hellena/Paloma',status:'En progreso',notas:'Pendiente definir fecha'},
+  {id:16,mes:'Abril',eje:'Cultura y Comunicación interna',accion:'Fase de Leadership Journey',resp:'Hellena/Paloma',status:'En progreso',notas:'Se movió a mayo'},
+  {id:17,mes:'Abril',eje:'Capacitación',accion:'Co-diseño plan anual de capacitación en habilidades organizacionales',resp:'Hellena/Paloma',status:'En progreso',notas:'Revisar con Hellena fechas e instrumentos'},
+  {id:18,mes:'Abril',eje:'Procesos y Estructura RH',accion:'Arranque consultoría sueldos y salarios',resp:'Paloma/Rosy',status:'En progreso',notas:'Primera fase: descriptivas de puesto y organigrama'},
+  {id:19,mes:'Abril',eje:'Procesos y Estructura RH',accion:'Validación equipo interno Hostech — sueldos y salarios',resp:'SH/Dirección General',status:'Sin iniciar',notas:''},
+  {id:20,mes:'Abril',eje:'Capacitación',accion:'Fase de capacitación Juniper (RH como soporte)',resp:'Operaciones/Paloma',status:'Sin iniciar',notas:''},
+  {id:21,mes:'Abril',eje:'Atracción y Retención de Talento',accion:'Proyecto habilitación de líderes para entrevistas SMART',resp:'Alexa',status:'En progreso',notas:'Presentación jueves 30 abril. Ya presentado'},
+  {id:22,mes:'Mayo',eje:'Procesos y Estructura RH',accion:'Primera entrega proyecto sueldos y salarios',resp:'SH/Paloma/Rosy',status:'Sin iniciar',notas:'Ideal para revisión a mitad de año'},
+  {id:23,mes:'Mayo',eje:'Desarrollo y Formación',accion:'Se activa programa upskilling y reskilling',resp:'Hellena/Paloma',status:'Sin iniciar',notas:'Aprender habilidades nuevas para el rol'},
+  {id:24,mes:'Mayo',eje:'Atracción y Retención de Talento',accion:'Contratación equipo de ventas',resp:'Revisar con Jonathan',status:'Sin iniciar',notas:''},
+  {id:25,mes:'Mayo',eje:'Capacitación',accion:'Seguimiento autoaprendizaje equipo en Juniper',resp:'Operaciones/RH',status:'Sin iniciar',notas:'ERP tiene espacio de autocapacitación'},
+  {id:26,mes:'Mayo',eje:'Desarrollo y Formación',accion:'Resultados DNC y plan integral de desarrollo Soft Skills',resp:'Hellena/Paloma',status:'Sin iniciar',notas:'Se empata con necesidades técnicas'},
+  {id:27,mes:'Mayo',eje:'Capacitación',accion:'Carga de materiales al LMS de Juniper',resp:'RH/Operaciones',status:'Sin iniciar',notas:'Depende de que operaciones comparta materiales'},
+  {id:28,mes:'Mayo',eje:'Desarrollo y Formación',accion:'Planeación proyecto Buzón y Pulsos de Clima',resp:'Paloma',status:'Sin iniciar',notas:''},
+  {id:29,mes:'Junio',eje:'Cultura y Comunicación interna',accion:'Inicia programa de reconocimiento por insignias',resp:'Paloma/Operaciones',status:'Sin iniciar',notas:'Insignias de competencia, actitud e impacto'},
+  {id:30,mes:'Junio',eje:'Atracción y Retención de Talento',accion:'Reclutamiento equipo reservas para salida de paquetes',resp:'Alexa/Reclutamiento',status:'Sin iniciar',notas:''},
+  {id:31,mes:'Junio',eje:'Procesos y Estructura RH',accion:'Lanzamiento proyecto Buzón',resp:'Paloma/Rosy',status:'Sin iniciar',notas:'2-3 meses de trabajo previo con RH y contabilidad'},
+  {id:32,mes:'Junio',eje:'Cultura y Comunicación interna',accion:'Lanzamiento pulsos de clima',resp:'Paloma/Alexa',status:'Sin iniciar',notas:''},
+  {id:33,mes:'Junio',eje:'Procesos y Estructura RH',accion:'Política de sueldos y salarios (Consultoría)',resp:'Paloma/Rosy',status:'Sin iniciar',notas:''},
+  {id:34,mes:'Julio',eje:'Atracción y Retención de Talento',accion:'Continuidad bolsa de trabajo viva (landing page)',resp:'Paloma/Marketing',status:'Sin iniciar',notas:'Agregar botón de cartera de candidatos'},
+  {id:35,mes:'Julio',eje:'Desarrollo y Formación',accion:'Seguimiento de formación adaptativo',resp:'Hellena/Paloma',status:'Sin iniciar',notas:'Objetivo: prevenir bajas por implementación Juniper'},
+  {id:36,mes:'Julio',eje:'Cultura y Comunicación interna',accion:'Lanzamiento ecosistemas de comunicación formales Hostech',resp:'Hellena/Paloma',status:'Sin iniciar',notas:''},
+  {id:37,mes:'Julio',eje:'Cultura y Comunicación interna',accion:'Seguimiento programa de reconocimiento por insignias',resp:'Paloma/Alexa/Marketing',status:'Sin iniciar',notas:''},
+  {id:38,mes:'Julio',eje:'Cultura y Comunicación interna',accion:'Lanzamiento sistema de reconocimiento y retroalimentación',resp:'Paloma/Alexa/Marketing',status:'Sin iniciar',notas:''},
+  {id:39,mes:'Agosto',eje:'Atracción y Retención de Talento',accion:'Inicia reclutamiento departamento de auditoría operativa',resp:'Reclutamiento/Alexa',status:'Sin iniciar',notas:'Pendiente definir departamento'},
+  {id:40,mes:'Agosto',eje:'Atracción y Retención de Talento',accion:'Inicia reclutamiento Gerente de calidad',resp:'Reclutamiento/Alexa',status:'Sin iniciar',notas:''},
+  {id:41,mes:'Agosto',eje:'Capacitación',accion:'Presentación plan integral de capacitación (DNC)',resp:'Hellena/Paloma',status:'Sin iniciar',notas:''},
+  {id:42,mes:'Agosto',eje:'Cultura y Comunicación interna',accion:'Primer cierre programa de reconocimiento por insignias',resp:'Paloma/Alexa',status:'Sin iniciar',notas:''},
+  {id:43,mes:'Septiembre',eje:'Atracción y Retención de Talento',accion:'Ingreso departamento auditoría y ventas para apertura de mercados',resp:'Reclutamiento/Alexa',status:'Sin iniciar',notas:''},
+  {id:44,mes:'Septiembre',eje:'Cultura y Comunicación interna',accion:'Construcción programa de salud mental',resp:'Paloma',status:'Sin iniciar',notas:''},
+  {id:45,mes:'Septiembre',eje:'Desarrollo y Formación',accion:'Planeación de Evaluación de desempeño',resp:'Paloma/DO',status:'Sin iniciar',notas:''},
+  {id:46,mes:'Septiembre',eje:'Desarrollo y Formación',accion:'Congreso internacional de RH 2026 (23-24 sept)',resp:'Paloma/Alexa',status:'Sin iniciar',notas:''},
+  {id:47,mes:'Octubre',eje:'Atracción y Retención de Talento',accion:'Inicia búsqueda Coordinador de Desarrollo Organizacional',resp:'Reclutamiento/Alexa',status:'Sin iniciar',notas:'Para ejecución proyecto evaluación de desempeño'},
+  {id:48,mes:'Octubre',eje:'Desarrollo y Formación',accion:'Mes de la salud mental (webinars)',resp:'Paloma/DO',status:'Sin iniciar',notas:'NOM 035 y bienestar colaboradores'},
+  {id:49,mes:'Octubre',eje:'Desarrollo y Formación',accion:'Arranque consultoría de KPIs',resp:'Paloma/DO',status:'Sin iniciar',notas:'Apoyo en documentación de procesos'},
+  {id:50,mes:'Octubre',eje:'Cultura y Comunicación interna',accion:'Evaluación y ajuste ecosistema de comunicación Hostech',resp:'Hellena/Paloma',status:'Sin iniciar',notas:''},
+  {id:51,mes:'Noviembre',eje:'Atracción y Retención de Talento',accion:'Ingresa coordinador de desarrollo organizacional',resp:'Alexa',status:'Sin iniciar',notas:'On boarding con las áreas'},
+  {id:52,mes:'Noviembre',eje:'Desarrollo y Formación',accion:'Construcción proceso de desempeño',resp:'Paloma/DO',status:'Sin iniciar',notas:'Validar si se requiere consultoría adicional a KPIs'},
+  {id:53,mes:'Noviembre',eje:'Cultura y Comunicación interna',accion:'Seguimiento cultura reconocimiento y retroalimentación',resp:'Paloma/DO',status:'Sin iniciar',notas:'Conteo final del programa de insignias'},
+  {id:54,mes:'Noviembre',eje:'Cultura y Comunicación interna',accion:'Preparación evento de fin de año',resp:'Paloma/DO',status:'Sin iniciar',notas:'Reconocimientos antigüedad, desempeño e insignias'},
+  {id:55,mes:'Diciembre',eje:'Desarrollo y Formación',accion:'Preparación evaluación de desempeño',resp:'Paloma/DO',status:'Sin iniciar',notas:'Política de evaluación de desempeño'},
+  {id:56,mes:'Diciembre',eje:'Desarrollo y Formación',accion:'Campaña de comunicación formal de evaluación de desempeño',resp:'Paloma/DO',status:'Sin iniciar',notas:'Procesos, políticas, sistema, fechas, feedback'},
+  {id:57,mes:'Diciembre',eje:'Cultura y Comunicación interna',accion:'Evento de fin de año',resp:'Equipo RH',status:'Sin iniciar',notas:'Ejecución, seguimiento, encuesta y reporte'},
+  {id:58,mes:'Diciembre',eje:'Procesos y Estructura RH',accion:'Planeación 2027 y presentación de resultados',resp:'Equipo RH',status:'Sin iniciar',notas:''}
+];
+
+function loadData(){try{const r=localStorage.getItem(KEY);return r?JSON.parse(r):JSON.parse(JSON.stringify(SEED));}catch{return JSON.parse(JSON.stringify(SEED));}}
+function saveData(){localStorage.setItem(KEY,JSON.stringify(tasks));const t=new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});setSavedLabel('Guardado '+t);syncToSheets('tareas',tasks);}
+let tasks=loadData(),stimer=null;
+function dsave(){clearTimeout(stimer);stimer=setTimeout(saveData,600);}
+
+function getStats(){
+  const na=tasks.filter(t=>t.status==='No aplica este año').length;
+  const active=tasks.filter(t=>t.status!=='No aplica este año');
+  const total=active.length,
+    done=active.filter(t=>t.status==='Completada').length,
+    init=active.filter(t=>t.status==='Iniciada').length,
+    prog=active.filter(t=>t.status==='En progreso').length,
+    blok=active.filter(t=>t.status==='Bloqueada').length;
+  const pct=total?Math.round((done+init*0.5)/total*100):0;
+  return{total,done,init,prog,blok,na,pend:total-done-init-prog-blok,pct};
+}
+function renderMeta(){
+  const s=getStats();
+  ['hero-pct','dpct'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=s.pct+'<span>%</span>';});
+  const pf=document.getElementById('prog');if(pf)pf.style.width=s.pct+'%';
+  const pl=document.getElementById('pills');
+  if(pl)pl.innerHTML=`
+    <div class="pill"><span class="pdot" style="background:var(--ink)"></span><strong>${s.total}</strong> tareas activas</div>
+    <div class="pill"><span class="pdot" style="background:#1a6b3a"></span><strong>${s.done}</strong> completadas</div>
+    <div class="pill"><span class="pdot" style="background:var(--cyan)"></span><strong>${s.init}</strong> iniciadas</div>
+    <div class="pill"><span class="pdot" style="background:#8a6800"></span><strong>${s.prog}</strong> en progreso</div>
+    <div class="pill"><span class="pdot" style="background:#8b1a1a"></span><strong>${s.blok}</strong> bloqueadas</div>
+    <div class="pill"><span class="pdot" style="background:var(--ink-faint)"></span><strong>${s.pend}</strong> sin iniciar</div>
+    ${s.na?`<div class="pill sNa" style="font-size:12px"><strong>${s.na}</strong> no aplica este año</div>`:''}
+  `;
+}
+function scls(v){return{'Completada':'sDone','Iniciada':'sInit','En progreso':'sProg','Bloqueada':'sBlok','Sin iniciar':'sPend','No aplica este año':'sNa'}[v]||'sPend';}
+function render(){
+  const fM=document.getElementById('fMes').value,fE=document.getElementById('fEje').value,
+    fS=document.getElementById('fSt').value,fQ=document.getElementById('fQ').value.toLowerCase();
+  const filtered=tasks.filter(t=>{
+    if(fM&&t.mes!==fM)return false;if(fE&&t.eje!==fE)return false;
+    if(fS&&t.status!==fS)return false;
+    if(fQ&&!t.accion.toLowerCase().includes(fQ)&&!t.resp.toLowerCase().includes(fQ))return false;
+    return true;
+  });
+  const g={};filtered.forEach(t=>{if(!g[t.mes])g[t.mes]=[];g[t.mes].push(t);});
+  let h='';
+  MES.forEach(m=>{
+    if(!g[m])return;
+    h+=`<tr class="mhdr"><td colspan="6">${m} · ${g[m].length} tarea${g[m].length>1?'s':''}</td></tr>`;
+    g[m].forEach(t=>{
+      const sc=ESHORT[t.eje]||'',stc=scls(t.status);
+      h+=`<tr>
+        <td style="color:var(--ink-muted);font-size:12px">${t.mes}</td>
+        <td><span class="eb e${sc}" title="${t.eje}">${sc}</span></td>
+        <td>${t.accion}</td>
+        <td style="font-size:12px;color:var(--ink-muted)">${t.resp}</td>
+        <td><select class="ssel ${stc}" onchange="upd(${t.id},'status',this.value);this.className='ssel '+scls(this.value)">
+          <option ${t.status==='Sin iniciar'?'selected':''}>Sin iniciar</option>
+          <option ${t.status==='Iniciada'?'selected':''}>Iniciada</option>
+          <option ${t.status==='En progreso'?'selected':''}>En progreso</option>
+          <option ${t.status==='Completada'?'selected':''}>Completada</option>
+          <option ${t.status==='Bloqueada'?'selected':''}>Bloqueada</option>
+          <option ${t.status==='No aplica este año'?'selected':''}>No aplica este año</option>
+        </select></td>
+        <td><input class="ni" type="text" value="${(t.notas||'').replace(/"/g,'&quot;')}" placeholder="Agregar nota..." onchange="upd(${t.id},'notas',this.value)"></td>
+      </tr>`;
+    });
+  });
+  document.getElementById('tbody').innerHTML=h||'<tr><td colspan="6" style="padding:2rem;text-align:center;color:var(--ink-muted)">Sin resultados</td></tr>';
+  renderMeta();
+}
+function upd(id,field,val){const t=tasks.find(x=>x.id===id);if(t){t[field]=val;dsave();renderMeta();if(document.getElementById('tab-dashboard').style.display!=='none')renderDash();}}
+
+// Helper global: % ponderado (Completada=1, Iniciada=0.5, No aplica excluida)
+function pctW(list){
+  const active=list.filter(t=>t.status!=='No aplica este año');
+  if(!active.length)return 0;
+  const pts=active.reduce((acc,t)=>acc+(t.status==='Completada'?1:t.status==='Iniciada'?0.5:0),0);
+  return Math.round(pts/active.length*100);
+}
+
+function renderDash(){
+  renderMeta();
+
+  let ej='';
+  Object.entries(ESHORT).forEach(([name,code])=>{
+    const all=tasks.filter(t=>t.eje===name),pct=pctW(all);
+    ej+=`<div class="erow"><span class="elbl"><span class="eb e${code}" style="font-size:10px;padding:2px 6px">${code}</span></span><span class="ename" title="${name}">${name}</span><div class="ebg"><div class="efill" style="width:${pct}%;background:${ECOL[code]}"></div></div><span class="epct">${pct}%</span></div>`;
+  });
+  document.getElementById('cejes').innerHTML='<h3>Avance por eje estratégico</h3>'+ej;
+  let ms='';
+  MES.forEach(m=>{const all=tasks.filter(t=>t.mes===m);if(!all.length)return;const done=all.filter(t=>t.status==='Completada').length,init=all.filter(t=>t.status==='Iniciada').length,pct=pctW(all);ms+=`<div class="erow"><span class="ename" style="flex:0 0 90px;font-size:12px">${m}</span><div class="ebg"><div class="efill" style="width:${pct}%;background:var(--blue)"></div></div><span class="epct">${done+(init>0?'+'+init+'i':'')}</span></div>`;});
+  document.getElementById('cmeses').innerHTML='<h3>Avance por mes</h3>'+ms;
+  const rm={};tasks.forEach(t=>{const r=t.resp.split('/')[0].trim();if(!rm[r])rm[r]={tot:0,pts:0};rm[r].tot++;if(t.status==='Completada')rm[r].pts+=1;else if(t.status==='Iniciada')rm[r].pts+=0.5;});
+  let rh='';Object.entries(rm).sort((a,b)=>b[1].tot-a[1].tot).slice(0,6).forEach(([r,v])=>{rh+=`<div class="rrow"><span><span class="av">${r.slice(0,2).toUpperCase()}</span>${r}</span><span style="font-size:12px;color:var(--ink-muted)">${Math.round(v.pts*2)/2}/${v.tot} ✓</span></div>`;});
+  document.getElementById('cresp').innerHTML='<h3>Carga por responsable</h3>'+rh;
+  const now=4,pend=tasks.filter(t=>MES.indexOf(t.mes)>=now&&t.status!=='Completada'&&t.status!=='Iniciada').slice(0,6);
+  let ph='';pend.forEach(t=>{const sc=ESHORT[t.eje]||'';ph+=`<div class="pitem"><span class="ptask"><span class="eb e${sc}" style="font-size:10px;padding:2px 6px;margin-right:6px">${sc}</span>${t.accion}</span><span class="pmth">${t.mes}</span></div>`;});
+  document.getElementById('cpend').innerHTML='<h3>Próximas pendientes</h3>'+ph;
+}
+function showTab(tab,btn){
+  document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+  document.getElementById('tab-tareas').style.display=tab==='tareas'?'':'none';
+  document.getElementById('tab-dashboard').style.display=tab==='dashboard'?'':'none';
+  document.getElementById('tab-kpis').style.display=tab==='kpis'?'':'none';
+  document.getElementById('tab-vacantes').style.display=tab==='vacantes'?'':'none';
+  document.getElementById('tab-ejecutivo').style.display=tab==='ejecutivo'?'':'none';
+  document.getElementById('tab-hellena').style.display=tab==='hellena'?'':'none';
+  document.getElementById('tab-sueldos').style.display=tab==='sueldos'?'':'none';
+  if(tab==='dashboard')renderDash();
+  if(tab==='kpis')renderKPIs();
+  if(tab==='vacantes')renderVacantes();
+  if(tab==='ejecutivo')renderEjecutivo();
+  if(tab==='hellena')renderHellena();
+  if(tab==='sueldos')renderSueldos();
+}
+
+function renderEjecutivo(){
+  const s=getStats();
+  const pct=s.pct;
+  // Ring
+  const circ=301.6;
+  document.getElementById('exec-ring-fill').setAttribute('stroke-dashoffset', circ-(circ*pct/100));
+  document.getElementById('exec-ring-txt').textContent=pct+'%';
+  document.getElementById('exec-ring-sub').textContent=s.done+' completas · '+s.init+' iniciadas (×0.5)';
+  document.getElementById('exec-ring-sub').style.color='#8a7f75';
+  document.getElementById('exec-done').textContent=s.done;
+  document.getElementById('exec-prog').textContent=s.prog;
+  // Vacantes activas
+  const vacActivas=(typeof vacs!=='undefined')?vacs.filter(v=>!['cubierta','cubierta-fuera'].includes(v.status)).length:0;
+  document.getElementById('exec-vac').textContent=vacActivas;
+
+  // Heatmap
+  const MES_SHORT=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const NOW_IDX=4; // Mayo
+  let heatHtml='';
+  MES.forEach((m,i)=>{
+    const all=tasks.filter(t=>t.mes===m);
+    if(!all.length){heatHtml+=`<div class="hb${i===NOW_IDX?' hb-current':''}" style="background:#eeece3"><div class="hbm" style="color:#c4bbb0">${MES_SHORT[i]}</div><div class="hbp" style="color:#c4bbb0">–</div></div>`;return;}
+    const p=pctW(all);
+    const alpha=p===100?1:p>0?0.5:0.1;
+    const bg=`rgba(69,99,255,${alpha})`;
+    const tc=alpha>0.6?'#ffffff':'#10100f';
+    const tcs=alpha>0.6?'rgba(255,255,255,.65)':'#8a7f75';
+    heatHtml+=`<div class="hb${i===NOW_IDX?' hb-current':''}" style="background:${bg}"><div class="hbm" style="color:${tcs}">${MES_SHORT[i]}</div><div class="hbp" style="color:${tc}">${p}%</div></div>`;
+  });
+  document.getElementById('exec-heat').innerHTML=heatHtml;
+
+  // Ejes
+  const ejNames=Object.keys(ESHORT);
+  let ejHtml='';
+  ejNames.forEach(name=>{
+    const code=ESHORT[name];
+    const all=tasks.filter(t=>t.eje===name);
+    const p=pctW(all);
+    ejHtml+=`<div class="ex-bar-row">
+      <div class="ex-bar-code">${code}</div>
+      <div class="ex-bar-bg"><div class="ex-bar-fill" style="width:${p}%;background:${ECOL[code]}"></div></div>
+      <div class="ex-bar-pct">${p}%</div>
+    </div>`;
+  });
+  document.getElementById('exec-ejes').innerHTML=ejHtml;
+
+  // Status
+  const stData=[
+    {label:'Completadas',count:s.done,color:'#fad83f',dot:'#10100f'},
+    {label:'Iniciadas',count:s.init,color:'#4A9FDC',dot:'#4A9FDC'},
+    {label:'En progreso',count:s.prog,color:'#4563ff',dot:'#4563ff'},
+    {label:'Sin iniciar',count:s.pend,color:'#c4bbb0',dot:'#c4bbb0'},
+    {label:'Bloqueadas',count:s.blok,color:'#e05533',dot:'#e05533'},
+  ];
+  let stHtml='';
+  stData.forEach(d=>{
+    const p=s.total?Math.round(d.count/s.total*100):0;
+    stHtml+=`<div class="st-row">
+      <div class="st-dot" style="background:${d.dot}"></div>
+      <div class="st-nm">${d.label}</div>
+      <div class="st-bg"><div class="st-fill" style="width:${p}%;background:${d.color}"></div></div>
+      <div class="st-n">${d.count}</div>
+    </div>`;
+  });
+  document.getElementById('exec-status').innerHTML=stHtml;
+
+  // Pending this month
+  const thisMonth=MES[NOW_IDX];
+  const pending=tasks.filter(t=>t.mes===thisMonth&&t.status!=='Completada').slice(0,5);
+  let pendHtml='';
+  if(!pending.length){pendHtml='<div style="font-size:13px;color:var(--ink-muted);padding:8px 0">✓ Todas las tareas del mes completadas</div>';}
+  else{pending.forEach(t=>{
+    const sc=ESHORT[t.eje]||'';
+    pendHtml+=`<div class="pend-row"><div class="pend-nm"><span class="eb e${sc}" style="font-size:10px;padding:2px 5px;margin-right:5px">${sc}</span>${t.accion}</div><div class="pend-mes">${t.mes}</div></div>`;
+  });}
+  document.getElementById('exec-pending').innerHTML=pendHtml;
+
+  // Vacantes
+  let vacHtml='';
+  if(typeof vacs==='undefined'||!vacs.length){
+    vacHtml='<div style="font-size:13px;color:var(--ink-muted);padding:8px 0">No hay vacantes registradas</div>';
+  } else {
+    const shown=vacs.filter(v=>!['cubierta'].includes(v.status)).slice(0,5);
+    if(!shown.length){vacHtml='<div style="font-size:13px;color:var(--ink-muted);padding:8px 0">✓ Todas las vacantes cubiertas</div>';}
+    else{shown.forEach(v=>{
+      const sv=STATUS_VAC.find(x=>x.val===v.status)||STATUS_VAC[0];
+      const dias=diasActivosStr(v);
+      const dotColors={'en-tiempo':'#fad83f','atrasada':'#fad83f','fuera':'#e05533','urgente':'#e05533','por-ingresar':'#4563ff','cubierta-fuera':'#4563ff','cubierta':'#10100f'};
+      const dc=dotColors[v.status]||'#c4bbb0';
+      vacHtml+=`<div class="pend-row">
+        <div style="display:flex;align-items:center;gap:8px;flex:1">
+          <div class="st-dot" style="background:${dc};flex-shrink:0"></div>
+          <div class="pend-nm" style="margin:0">${v.puesto||'Sin nombre'}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px">
+          <div class="pend-mes">${sv.label}</div>
+          ${dias!=='–'?`<div style="font-size:10px;color:var(--ink-muted)">${dias} días háb.</div>`:''}
+        </div>
+      </div>`;
+    });}
+  }
+  document.getElementById('exec-vacantes').innerHTML=vacHtml;
+}
+
+// ── VACANTES ──
+const VAC_KEY='hostech_vac_v1';
+const STATUS_VAC=[
+  {val:'en-tiempo',   label:'En tiempo',           cls:'vs-tiempo'},
+  {val:'atrasada',    label:'Atrasada',             cls:'vs-atrasada'},
+  {val:'fuera',       label:'Fuera de tiempo',      cls:'vs-fuera'},
+  {val:'urgente',     label:'Urgente',              cls:'vs-urgente'},
+  {val:'cubierta',    label:'Cubierta',             cls:'vs-cubierta'},
+  {val:'cubierta-fuera',label:'Cubierta f/tiempo',  cls:'vs-cubierta-fuera'},
+  {val:'por-ingresar',label:'Por ingresar',         cls:'vs-por-ingresar'},
+];
+function loadVac(){try{const r=localStorage.getItem(VAC_KEY);return r?JSON.parse(r):[];}catch{return[];}}
+function saveVac(){localStorage.setItem(VAC_KEY,JSON.stringify(vacs));const t=new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});setSavedLabel('Guardado '+t);syncToSheets('vacantes',vacs);}
+let vacs=loadVac(), vtimer=null;
+function dvsave(){clearTimeout(vtimer);vtimer=setTimeout(saveVac,600);}
+
+function updVac(id,field,val){
+  const v=vacs.find(x=>x.id===id);
+  if(v){
+    v[field]=val;
+    // Auto-semáforo si el estado es automático (no cubierta/por-ingresar)
+    if(field==='fechaSolicitud'||field==='meta'||field==='fechaSeleccion'||field==='fechaIngreso'){
+      autoStatus(v);
+    }
+    dvsave();
+    renderVacantes();
+  }
+}
+
+function autoStatus(v){
+  // Si ya tiene fecha ingreso → cubierta o cubierta f/tiempo
+  if(v.fechaIngreso){
+    const dias=daysBetween(v.fechaSolicitud, v.fechaIngreso);
+    v.status = dias <= (v.meta||30) ? 'cubierta' : 'cubierta-fuera';
+    return;
+  }
+  // Si tiene fecha selección pero no ingreso → por ingresar
+  if(v.fechaSeleccion && !v.fechaIngreso){ v.status='por-ingresar'; return; }
+  // Sin fechas especiales → calcular por días activos
+  if(!v.fechaSolicitud){ v.status='en-tiempo'; return; }
+  const dias=daysBetween(v.fechaSolicitud, new Date().toISOString().slice(0,10));
+  const meta=v.meta||20;
+  if(dias < meta*0.7)      v.status='en-tiempo';
+  else if(dias < meta)     v.status='atrasada';
+  else if(dias < meta*1.5) v.status='fuera';
+  else                     v.status='urgente';
+}
+
+// Días hábiles (lunes–viernes) entre dos fechas ISO string
+function daysBetween(d1,d2){
+  if(!d1||!d2)return 0;
+  let start=new Date(d1+'T12:00:00'), end=new Date(d2+'T12:00:00');
+  if(start>end)[start,end]=[end,start];
+  let count=0, cur=new Date(start);
+  while(cur<=end){
+    const dow=cur.getDay();
+    if(dow!==0&&dow!==6)count++;
+    cur.setDate(cur.getDate()+1);
+  }
+  return count;
+}
+
+function diasActivosStr(v){
+  if(!v.fechaSolicitud)return'–';
+  const end=v.fechaIngreso||new Date().toISOString().slice(0,10);
+  return daysBetween(v.fechaSolicitud,end);
+}
+
+function selIngresoStr(v){
+  if(!v.fechaSeleccion||!v.fechaIngreso)return'–';
+  const d=daysBetween(v.fechaSeleccion,v.fechaIngreso);
+  return `<span class="tiempo-chip">${d} día${d!==1?'s':''} háb.</span>`;
+}
+
+function diasColor(dias,meta){
+  const m=meta||20;
+  if(dias<m*0.7)return'#d4f5e0';
+  if(dias<m)return'#fef8d0';
+  if(dias<m*1.5)return'#ffe8d4';
+  return'#fde8e8';
+}
+
+function addVacante(){
+  const id='v'+Date.now();
+  vacs.push({id,puesto:'',area:'',fechaSolicitud:'',meta:20,status:'en-tiempo',fechaSeleccion:'',fechaIngreso:''});
+  saveVac();
+  renderVacantes();
+  // focus en el primer input del nuevo row
+  setTimeout(()=>{const el=document.getElementById('vi-'+id);if(el)el.focus();},80);
+}
+
+function delVacante(id){
+  if(!confirm('¿Eliminar esta vacante?'))return;
+  vacs=vacs.filter(x=>x.id!==id);
+  saveVac();
+  renderVacantes();
+}
+
+function renderVacantes(){
+  // Summary
+  const total=vacs.length;
+  const activas=vacs.filter(v=>!['cubierta','cubierta-fuera'].includes(v.status)).length;
+  const cubiertas=vacs.filter(v=>['cubierta','cubierta-fuera'].includes(v.status)).length;
+  const urgentes=vacs.filter(v=>v.status==='urgente').length;
+  const porIngresar=vacs.filter(v=>v.status==='por-ingresar').length;
+  document.getElementById('vac-summary').innerHTML=`
+    <div class="vac-pill"><span class="pdot" style="background:var(--ink)"></span><strong>${total}</strong> vacantes totales</div>
+    <div class="vac-pill"><span class="pdot" style="background:#fad83f"></span><strong>${activas}</strong> activas</div>
+    <div class="vac-pill"><span class="pdot" style="background:#4563ff"></span><strong>${cubiertas}</strong> cubiertas</div>
+    <div class="vac-pill"><span class="pdot" style="background:#4ade80"></span><strong>${porIngresar}</strong> por ingresar</div>
+    ${urgentes?`<div class="vac-pill"><span class="pdot" style="background:#f87171"></span><strong>${urgentes}</strong> urgentes</div>`:''}
+  `;
+
+  // Rows
+  const statusOpts=STATUS_VAC.map(s=>`<option value="${s.val}">${s.label}</option>`).join('');
+  let html='';
+  if(!vacs.length){
+    html='<tr><td colspan="10" style="padding:2rem;text-align:center;color:var(--ink-muted)">No hay vacantes registradas · haz clic en "+ Nueva vacante" para empezar</td></tr>';
+  }
+  vacs.forEach(v=>{
+    const sv=STATUS_VAC.find(s=>s.val===v.status)||STATUS_VAC[0];
+    const dias=diasActivosStr(v);
+    const dc=typeof dias==='number'?diasColor(dias,v.meta):'transparent';
+    html+=`<tr>
+      <td><input id="vi-${v.id}" class="vac-input" type="text" value="${v.puesto||''}" placeholder="Nombre del puesto" onchange="updVac('${v.id}','puesto',this.value)"></td>
+      <td><input class="vac-input" type="text" value="${v.area||''}" placeholder="Área" onchange="updVac('${v.id}','area',this.value)"></td>
+      <td><input class="vac-input" type="date" value="${v.fechaSolicitud||''}" onchange="updVac('${v.id}','fechaSolicitud',this.value)"></td>
+      <td><span class="dias-badge" style="background:${dc}">${dias}</span></td>
+      <td><input class="vac-input" type="number" value="${v.meta||30}" min="1" style="width:60px" onchange="updVac('${v.id}','meta',parseInt(this.value)||30)"></td>
+      <td>
+        <select class="vac-input" style="min-width:130px" onchange="updVac('${v.id}','status',this.value)">
+          ${STATUS_VAC.map(s=>`<option value="${s.val}" ${v.status===s.val?'selected':''}>${s.label}</option>`).join('')}
+        </select>
+      </td>
+      <td><input class="vac-input" type="date" value="${v.fechaSeleccion||''}" onchange="updVac('${v.id}','fechaSeleccion',this.value)"></td>
+      <td><input class="vac-input" type="date" value="${v.fechaIngreso||''}" onchange="updVac('${v.id}','fechaIngreso',this.value)"></td>
+      <td style="text-align:center">${selIngresoStr(v)}</td>
+      <td><button class="del-btn" onclick="delVacante('${v.id}')" title="Eliminar">×</button></td>
+    </tr>`;
+  });
+  document.getElementById('vac-body').innerHTML=html;
+}
+
+const KPI_KEY='hostech_kpis_v1';
+const KPI_SEED=[
+  {id:'k1',eje:'AT',nombre:'Tiempo promedio de cobertura de vacantes',unidad:'días',meta:30,actual:'',notas:'',dir:'menor'},
+  {id:'k2',eje:'AT',nombre:'Tasa de retención a 6 meses (nuevos ingresos)',unidad:'%',meta:85,actual:'',notas:'',dir:'mayor'},
+  {id:'k3',eje:'AT',nombre:'Tasa de retención a 12 meses (nuevos ingresos)',unidad:'%',meta:80,actual:'',notas:'',dir:'mayor'},
+  {id:'k4',eje:'AT',nombre:'% posiciones clave cubiertas vs. plantilla planeada',unidad:'%',meta:90,actual:'',notas:'',dir:'mayor'},
+  {id:'k5',eje:'CA',nombre:'Horas de capacitación por colaborador (trimestral)',unidad:'hrs',meta:8,actual:'',notas:'',dir:'mayor'},
+  {id:'k6',eje:'CA',nombre:'% de adopción del LMS de Juniper',unidad:'%',meta:70,actual:'',notas:'',dir:'mayor'},
+  {id:'k7',eje:'CA',nombre:'% de avance DNC ejecutada vs. planeada',unidad:'%',meta:80,actual:'',notas:'',dir:'mayor'},
+  {id:'k8',eje:'DF',nombre:'NPS interno programa Hellena (líderes)',unidad:'pts',meta:70,actual:'',notas:'',dir:'mayor'},
+  {id:'k9',eje:'DF',nombre:'% de líderes aplicando entrevistas SMART',unidad:'%',meta:80,actual:'',notas:'',dir:'mayor'},
+  {id:'k10',eje:'DF',nombre:'Colaboradores activos en upskilling / reskilling',unidad:'personas',meta:15,actual:'',notas:'',dir:'mayor'},
+  {id:'k11',eje:'CC',nombre:'Score de pulsos de clima',unidad:'/ 10',meta:7.5,actual:'',notas:'',dir:'mayor'},
+  {id:'k12',eje:'CC',nombre:'Tasa de participación en pulsos de clima',unidad:'%',meta:70,actual:'',notas:'Meta mínima: 70% (ya logrado en encuesta de comunicación)'},
+  {id:'k13',eje:'CC',nombre:'Insignias entregadas por periodo',unidad:'insignias',meta:20,actual:'',notas:'',dir:'mayor'},
+  {id:'k14',eje:'PE',nombre:'% colaboradores con documentación completa',unidad:'%',meta:95,actual:'',notas:'',dir:'mayor'},
+  {id:'k15',eje:'PE',nombre:'Tiempo de respuesta a solicitudes internas de RH',unidad:'días',meta:2,actual:'',notas:'',dir:'menor'},
+  {id:'k16',eje:'PE',nombre:'Avance política de sueldos y salarios (fases)',unidad:'%',meta:100,actual:'',notas:'3 fases: descriptivas, benchmark, política',dir:'mayor'},
+];
+
+function loadKPIs(){try{const r=localStorage.getItem(KPI_KEY);return r?JSON.parse(r):JSON.parse(JSON.stringify(KPI_SEED));}catch{return JSON.parse(JSON.stringify(KPI_SEED));}}
+function saveKPIs(){localStorage.setItem(KPI_KEY,JSON.stringify(kpis));const t=new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});setSavedLabel('Guardado '+t);syncToSheets('kpis',kpis);}
+let kpis=loadKPIs(), ktimer=null;
+function dksave(){clearTimeout(ktimer);ktimer=setTimeout(saveKPIs,600);}
+function updKPI(id,field,val){const k=kpis.find(x=>x.id===id);if(k){k[field]=val;dksave();renderKPIs();}}
+
+function semaforo(k){
+  const v=parseFloat(k.actual);
+  if(isNaN(v)||k.actual==='')return{color:'gray',label:'Sin dato',dot:'#c8c7be'};
+  const pct=k.dir==='menor'?(k.meta/v):(v/k.meta);
+  if(pct>=0.9)return{color:'green',label:'En meta',dot:'#4ade80'};
+  if(pct>=0.7)return{color:'yellow',label:'En seguimiento',dot:'#fad83f'};
+  return{color:'red',label:'Requiere atención',dot:'#f87171'};
+}
+
+function kpiBarPct(k){
+  const v=parseFloat(k.actual);
+  if(isNaN(v)||k.actual==='')return 0;
+  const pct=k.dir==='menor'?(k.meta/v*100):(v/k.meta*100);
+  return Math.min(pct,100);
+}
+
+function barColor(color){return{green:'#4ade80',yellow:'#fad83f',red:'#f87171',gray:'var(--border)'}[color];}
+
+function renderKPIs(){
+  const grupos={AT:[],CA:[],DF:[],CC:[],PE:[]};
+  kpis.forEach(k=>{ if(grupos[k.eje]) grupos[k.eje].push(k); });
+  Object.entries(grupos).forEach(([eje, list])=>{
+    const el=document.getElementById('kpi-'+eje);
+    if(!el)return;
+    el.innerHTML=list.map(k=>{
+      const s=semaforo(k), bp=kpiBarPct(k), bc=barColor(s.color);
+      return `<div class="kpi-card ${s.color}">
+        <div class="kpi-eje">${k.eje}</div>
+        <div class="kpi-name">${k.nombre}</div>
+        <div class="kpi-semaforo"><span class="sem-dot" style="background:${s.dot}"></span>${s.label}</div>
+        <div class="kpi-row">
+          <div class="kpi-actual-wrap">
+            <div class="kpi-actual-lbl">Valor actual</div>
+            <div style="display:flex;align-items:baseline;gap:4px">
+              <input class="kpi-actual-input" type="number" value="${k.actual}" placeholder="–" onchange="updKPI('${k.id}','actual',this.value)" style="width:90px">
+              <span class="kpi-unit">${k.unidad}</span>
+            </div>
+          </div>
+          <div class="kpi-meta-wrap">
+            <div class="kpi-meta-lbl">Meta</div>
+            <div class="kpi-meta-val">${k.meta} <span style="font-size:12px">${k.unidad}</span></div>
+          </div>
+        </div>
+        <div class="kpi-bar-bg"><div class="kpi-bar-fill" style="width:${bp}%;background:${bc}"></div></div>
+        <input class="kpi-note-input" type="text" value="${(k.notas||'').replace(/"/g,'&quot;')}" placeholder="Nota o contexto..." onchange="updKPI('${k.id}','notas',this.value)">
+      </div>`;
+    }).join('');
+  });
+}
+document.getElementById('saved-lbl').textContent='Conectando...';
+initApp();
+
+// ── HELLENA ──
+const HBL_KEY='hostech_hellena_v1';
+const HBL_STATUS=[
+  {val:'pendiente', label:'Pendiente',  cls:'cs-pend'},
+  {val:'en-proceso',label:'En proceso', cls:'cs-prog'},
+  {val:'entregado', label:'Entregado',  cls:'cs-done'},
+  {val:'esperando', label:'Esperando',  cls:'cs-wait'},
+  {val:'con-retraso',label:'Con retraso',cls:'cs-late'},
+];
+const HBL_SEED={
+  hostech:[
+    {id:'hh1',etapa:'Diagnóstico',item:'Confirmar equipo interno Hostech',fecha:'2026-02-01',status:'entregado',notas:'Equipo confirmado: Paloma + CEOs + líderes'},
+    {id:'hh2',etapa:'Diagnóstico',item:'Compartir resultados encuesta de clima',fecha:'2026-02-01',status:'entregado',notas:''},
+    {id:'hh3',etapa:'Diagnóstico',item:'Comunicar internamente el inicio del proyecto',fecha:'2026-02-05',status:'entregado',notas:''},
+    {id:'hh4',etapa:'Diagnóstico',item:'Disponibilidad para entrevistas 1:1 (CEOs y líderes)',fecha:'2026-02-17',status:'entregado',notas:'10, 13 y 17 de febrero'},
+    {id:'hh5',etapa:'Quick Wins',item:'Participar en Taller de Liderazgo Adaptativo',fecha:'2026-02-19',status:'entregado',notas:'CEOs y equipo de líderes · 3hrs presencial'},
+    {id:'hh6',etapa:'Quick Wins',item:'Participar en Workshop decálogo de comunicación',fecha:'2026-03-10',status:'entregado',notas:'CEOs y equipo de líderes · 4hrs presencial'},
+    {id:'hh7',etapa:'Diagnóstico',item:'Validar diagnóstico estratégico',fecha:'2026-03-20',status:'entregado',notas:'CEOs y Paloma · virtual 1hr'},
+    {id:'hh8',etapa:'Estrategia',item:'Participar en Workshop co-construcción ecosistema',fecha:'2026-03-17',status:'entregado',notas:'Gerente DO · virtual 2hrs'},
+    {id:'hh9',etapa:'Estrategia',item:'Validar estrategia de talento y cultura',fecha:'2026-05-01',status:'en-proceso',notas:'CEOs y Paloma · TBD'},
+    {id:'hh10',etapa:'Estrategia',item:'Aprobar presentación ejecutiva final',fecha:'2026-05-25',status:'pendiente',notas:'CEOs y Paloma · TBD'},
+  ],
+  hellena:[
+    {id:'eh1',etapa:'Diagnóstico',item:'Informe ejecutivo: hallazgos comunicación, liderazgo y cultura',fecha:'2026-03-20',status:'entregado',notas:'Presentado 20 marzo'},
+    {id:'eh2',etapa:'Diagnóstico',item:'Mapa de brechas de competencias y estilos de liderazgo',fecha:'2026-03-20',status:'entregado',notas:'Insumo para Leadership Journey y DNC'},
+    {id:'eh3',etapa:'Diagnóstico',item:'Recomendaciones estratégicas priorizadas (heatmap)',fecha:'2026-03-20',status:'entregado',notas:''},
+    {id:'eh4',etapa:'Quick Wins',item:'Decálogo Hostech de comunicación transversal',fecha:'2026-03-10',status:'entregado',notas:''},
+    {id:'eh5',etapa:'Quick Wins',item:'Principios del Líder Hostech (liderazgo adaptativo)',fecha:'2026-02-19',status:'entregado',notas:''},
+    {id:'eh7',etapa:'Estrategia',item:'Documentos ejecutivos: estrategia, plan y métricas por pilar',fecha:'2026-05-25',status:'en-proceso',notas:'Comunicación, Leadership Journey y DNC'},
+    {id:'eh8',etapa:'Estrategia',item:'Brandbook de comunicación interna',fecha:'2026-05-25',status:'pendiente',notas:'Narrativa, branding y lineamientos'},
+    {id:'eh9',etapa:'Estrategia',item:'Estrategia de Leadership Journey',fecha:'2026-05-25',status:'en-proceso',notas:''},
+    {id:'eh10',etapa:'Estrategia',item:'Plan integral de capacitación (DNC)',fecha:'2026-05-25',status:'en-proceso',notas:''},
+  ]
+};
+
+function loadHBL(){
+  try{
+    const r=localStorage.getItem(HBL_KEY);
+    if(r){
+      const d=JSON.parse(r);
+      // Remove coaching item if it exists from old storage
+      d.hellena=d.hellena.filter(i=>i.id!=='eh6');
+      return d;
+    }
+    return JSON.parse(JSON.stringify(HBL_SEED));
+  }catch{return JSON.parse(JSON.stringify(HBL_SEED));}
+}
+function saveHBL(){localStorage.setItem(HBL_KEY,JSON.stringify(hbl));const t=new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});setSavedLabel('Guardado '+t);syncToSheets('hellena',hbl);}
+let hbl=loadHBL(), hbltimer=null;
+function dhblsave(){clearTimeout(hbltimer);hbltimer=setTimeout(saveHBL,600);}
+function updHBL(side,id,field,val){const list=hbl[side];const item=list.find(x=>x.id===id);if(item){item[field]=val;dhblsave();renderHellena();}}
+
+function hblStsCls(v){return HBL_STATUS.find(s=>s.val===v)?.cls||'cs-pend';}
+function hblStsLabel(v){return HBL_STATUS.find(s=>s.val===v)?.label||'Pendiente';}
+
+function renderHellenaTable(side, bodyId, pctId){
+  const list=hbl[side];
+  const done=list.filter(i=>i.status==='entregado').length;
+  const pct=list.length?Math.round(done/list.length*100):0;
+  document.getElementById(pctId).textContent=`${done}/${list.length} · ${pct}%`;
+
+  const etapas=['Diagnóstico','Quick Wins','Estrategia'];
+  let html='';
+  etapas.forEach(et=>{
+    const rows=list.filter(i=>i.etapa===et);
+    if(!rows.length)return;
+    html+=`<tr class="etapa-hdr"><td colspan="5">${et}</td></tr>`;
+    rows.forEach(item=>{
+      const sc=hblStsCls(item.status);
+      const stsOpts=HBL_STATUS.map(s=>`<option value="${s.val}"${item.status===s.val?' selected':''}>${s.label}</option>`).join('');
+      html+=`<tr>
+        <td style="font-size:12px;color:#8a7f75">${item.etapa}</td>
+        <td>${item.item}</td>
+        <td><input type="date" class="cons-ni" style="min-width:110px" value="${item.fecha||''}" onchange="updHBL('${side}','${item.id}','fecha',this.value)"></td>
+        <td><select class="cons-sel ${sc}" onchange="updHBL('${side}','${item.id}','status',this.value);this.className='cons-sel '+hblStsCls(this.value)">${stsOpts}</select></td>
+        <td><input class="cons-ni" type="text" value="${(item.notas||'').replace(/"/g,'&quot;')}" placeholder="Agregar nota..." onchange="updHBL('${side}','${item.id}','notas',this.value)"></td>
+      </tr>`;
+    });
+  });
+  document.getElementById(bodyId).innerHTML=html;
+}
+
+function renderHellena(){
+  renderHellenaTable('hostech','hellena-hostech-body','h-hostech-pct');
+  renderHellenaTable('hellena','hellena-hellena-body','h-hellena-pct');
+
+  // Calcular % ponderado por lado
+  function calcPct(list){
+    if(!list.length)return{pct:0,done:0,prog:0};
+    const done=list.filter(i=>i.status==='entregado').length;
+    const prog=list.filter(i=>i.status==='en-proceso').length;
+    const pts=done*1+prog*0.5;
+    return{pct:Math.round(pts/list.length*100),done,prog};
+  }
+  const ch=calcPct(hbl.hostech), ce=calcPct(hbl.hellena);
+  const circ=251.3;
+  const totalPct=Math.round((ch.pct+ce.pct)/2);
+
+  document.getElementById('ring-hellena-total').setAttribute('stroke-dashoffset', circ-(circ*totalPct/100));
+  document.getElementById('ring-hellena-total-txt').textContent=totalPct+'%';
+  document.getElementById('ring-hellena-total-sub').textContent=`${ch.done+ce.done} entregables completados de ${hbl.hostech.length+hbl.hellena.length} totales`;
+  document.getElementById('ring-h-sub').textContent=ch.pct+'%';
+  document.getElementById('ring-e-sub').textContent=ce.pct+'%';
+
+  // Barras por etapa
+  const ETAPAS=['Diagnóstico','Quick Wins','Estrategia'];
+  const ETAPA_COLORS={'Diagnóstico':'#4563ff','Quick Wins':'#fad83f','Estrategia':'#C40E91'};
+  const ETAPA_TEXT={'Diagnóstico':'#fff','Quick Wins':'#10100f','Estrategia':'#fff'};
+  let etapaHtml='';
+  ETAPAS.forEach(et=>{
+    const all=[...hbl.hostech,...hbl.hellena].filter(i=>i.etapa===et);
+    if(!all.length)return;
+    const done=all.filter(i=>i.status==='entregado').length;
+    const prog=all.filter(i=>i.status==='en-proceso').length;
+    const pend=all.filter(i=>i.status==='pendiente'||i.status==='esperando').length;
+    const late=all.filter(i=>i.status==='con-retraso').length;
+    const pts=done*1+prog*0.5;
+    const pct=Math.round(pts/all.length*100);
+    const col=ETAPA_COLORS[et];
+    let statusTag='';
+    if(pct===100) statusTag=`<span style="font-size:11px;font-weight:600;background:#d4f5e0;color:#1a6b3a;padding:2px 8px;border-radius:10px;border:1px solid #7dd6a0">✓ Completa</span>`;
+    else if(prog>0||done>0) statusTag=`<span style="font-size:11px;font-weight:600;background:#fef8d0;color:#8a6800;padding:2px 8px;border-radius:10px;border:1px solid #f0c840">En progreso</span>`;
+    else statusTag=`<span style="font-size:11px;font-weight:600;background:#f6f5ec;color:#8a7f75;padding:2px 8px;border-radius:10px;border:1px solid #e0d8ce">Sin iniciar</span>`;
+    etapaHtml+=`<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+      <div style="font-size:12px;font-weight:600;width:90px;flex-shrink:0;color:#3d3530">${et}</div>
+      <div style="flex:1;height:12px;background:#e0d8ce;border-radius:6px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:${col};border-radius:6px;transition:width .6s ease"></div>
+      </div>
+      <div style="font-size:13px;font-weight:600;min-width:36px;text-align:right;color:#10100f">${pct}%</div>
+      <div style="min-width:90px">${statusTag}</div>
+      <div style="font-size:11px;color:#8a7f75;min-width:120px">${done} entregados · ${prog} en proceso${late?` · <span style="color:#8b1a1a">${late} retraso</span>`:''}</div>
+    </div>`;
+  });
+  document.getElementById('hellena-etapas').innerHTML=etapaHtml;
+  const hLate=hbl.hostech.filter(i=>i.status==='con-retraso').length;
+  const eLate=hbl.hellena.filter(i=>i.status==='con-retraso').length;
+  document.getElementById('hellena-pills').innerHTML=`
+    <div class="cs-pill"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#fad83f;flex-shrink:0"></span><strong>${ch.pct}%</strong> Hostech cumple</div>
+    <div class="cs-pill"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#4563ff;flex-shrink:0"></span><strong>${ce.pct}%</strong> Hellena entrega</div>
+    <div class="cs-pill"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#C40E91;flex-shrink:0"></span><strong>${Math.round((ch.pct+ce.pct)/2)}%</strong> avance del proyecto</div>
+    ${hLate||eLate?`<div class="cs-pill" style="background:#fde8e8;border-color:#f0a0a0"><span style="color:#8b1a1a;font-size:12px">⚠</span><strong style="color:#8b1a1a">${hLate+eLate}</strong> con retraso</div>`:''}
+  `;
+}
+// ── SUELDOS Y SALARIOS ──
+const SH_KEY='hostech_sh_v1';
+const SH_SEED={
+  hostech:[
+    {id:'shh1',etapa:'Etapa 1',item:'Organigrama vigente (áreas, departamentos, niveles)',fecha:'2026-04-15',status:'entregado',notas:''},
+    {id:'shh2',etapa:'Etapa 1',item:'Descripciones de puestos (46 puestos)',fecha:'2026-04-15',status:'en-proceso',notas:'Descriptivas en construcción'},
+    {id:'shh3',etapa:'Etapa 1',item:'Sueldos y prestaciones actuales por colaborador',fecha:'2026-04-15',status:'en-proceso',notas:'Área, departamento, puesto e ID del colaborador'},
+    {id:'shh4',etapa:'Etapa 4',item:'Narrativa de política salarial o cuestionario',fecha:'2026-06-01',status:'pendiente',notas:''},
+    {id:'shh5',etapa:'Etapa 3',item:'Validar premisas organizacionales para ajustes salariales',fecha:'2026-05-30',status:'pendiente',notas:'Definir criterios: desempeño, antigüedad, dominio del puesto'},
+    {id:'shh6',etapa:'Etapa 1',item:'Validar resultados de valuación de puestos (Etapa 1)',fecha:'2026-05-15',status:'en-proceso',notas:'Presentación de resultados y metodología SH-VALUE®'},
+    {id:'shh7',etapa:'Etapa 2',item:'Validar diagnóstico de competitividad',fecha:'2026-05-30',status:'pendiente',notas:'Revisión con dirección general'},
+    {id:'shh8',etapa:'Etapa 3',item:'Aprobar tabulador salarial y escenarios de nivelación',fecha:'2026-06-15',status:'pendiente',notas:''},
+    {id:'shh9',etapa:'Etapa 4',item:'Revisar y aprobar política de administración de sueldos',fecha:'2026-06-30',status:'pendiente',notas:''},
+  ],
+  sh:[
+    {id:'ssh1',etapa:'Etapa 1',item:'Reporte resumen de puestos evaluados (Excel y PDF)',fecha:'2026-05-15',status:'en-proceso',notas:'Valuación con metodología SH-VALUE® · 46 puestos'},
+    {id:'ssh2',etapa:'Etapa 1',item:'Reporte descriptivo de puestos evaluados (Excel y PDF)',fecha:'2026-05-15',status:'en-proceso',notas:''},
+    {id:'ssh3',etapa:'Etapa 2',item:'Reportes de competitividad por puesto vs mercado (Excel/PDF)',fecha:'2026-05-30',status:'pendiente',notas:'Mercado General · Región Centro y Caribe · 5 niveles de compensación'},
+    {id:'ssh4',etapa:'Etapa 2',item:'Reporte de recomendaciones prestaciones y beneficios (PDF)',fecha:'2026-05-30',status:'pendiente',notas:'Comparativo vs estándares de mercado por nivel jerárquico'},
+    {id:'ssh5',etapa:'Etapa 3',item:'Tabulador de sueldos alineado al mercado (Excel)',fecha:'2026-06-15',status:'pendiente',notas:'10-14 niveles · agrupados por puntos SH-VALUE®'},
+    {id:'ssh6',etapa:'Etapa 3',item:'Análisis comparativo: sueldos actuales vs tabulador propuesto',fecha:'2026-06-15',status:'pendiente',notas:'Identificación de brechas y áreas de oportunidad'},
+    {id:'ssh7',etapa:'Etapa 3',item:'Reporte de análisis de costos de nivelación (Excel)',fecha:'2026-06-15',status:'pendiente',notas:'Simulación de escenarios para alcanzar meta de costo'},
+    {id:'ssh8',etapa:'Etapa 4',item:'Documento de política de administración de sueldos',fecha:'2026-06-30',status:'pendiente',notas:'Equidad interna · competitividad externa · sostenibilidad financiera'},
+  ]
+};
+
+function loadSH(){try{const r=localStorage.getItem(SH_KEY);return r?JSON.parse(r):JSON.parse(JSON.stringify(SH_SEED));}catch{return JSON.parse(JSON.stringify(SH_SEED));}}
+function saveSH(){localStorage.setItem(SH_KEY,JSON.stringify(sh));const t=new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});setSavedLabel('Guardado '+t);syncToSheets('sueldos',sh);}
+let sh=loadSH(), shtimer=null;
+function dshsave(){clearTimeout(shtimer);shtimer=setTimeout(saveSH,600);}
+function updSH(side,id,field,val){const list=sh[side];const item=list.find(x=>x.id===id);if(item){item[field]=val;dshsave();renderSueldos();}}
+
+function renderSHTable(side,bodyId,pctId){
+  const list=sh[side];
+  const done=list.filter(i=>i.status==='entregado').length;
+  const prog=list.filter(i=>i.status==='en-proceso').length;
+  const pts=done+prog*0.5;
+  const pct=list.length?Math.round(pts/list.length*100):0;
+  document.getElementById(pctId).textContent=`${done}/${list.length} · ${pct}%`;
+  const ETAPAS=['Etapa 1','Etapa 2','Etapa 3','Etapa 4'];
+  let html='';
+  ETAPAS.forEach(et=>{
+    const rows=list.filter(i=>i.etapa===et);
+    if(!rows.length)return;
+    const labels={'Etapa 1':'Análisis y Valuación de Puestos','Etapa 2':'Diagnóstico de Competitividad','Etapa 3':'Tabulador Salarial','Etapa 4':'Política de Sueldos'};
+    html+=`<tr class="etapa-hdr"><td colspan="5">${et} · ${labels[et]||''}</td></tr>`;
+    rows.forEach(item=>{
+      const sc=hblStsCls(item.status);
+      const stsOpts=HBL_STATUS.map(s=>`<option value="${s.val}"${item.status===s.val?' selected':''}>${s.label}</option>`).join('');
+      html+=`<tr>
+        <td style="font-size:12px;color:#8a7f75">${item.etapa}</td>
+        <td>${item.item}</td>
+        <td><input type="date" class="cons-ni" style="min-width:110px" value="${item.fecha||''}" onchange="updSH('${side}','${item.id}','fecha',this.value)"></td>
+        <td><select class="cons-sel ${sc}" onchange="updSH('${side}','${item.id}','status',this.value);this.className='cons-sel '+hblStsCls(this.value)">${stsOpts}</select></td>
+        <td><input class="cons-ni" type="text" value="${(item.notas||'').replace(/"/g,'&quot;')}" placeholder="Agregar nota..." onchange="updSH('${side}','${item.id}','notas',this.value)"></td>
+      </tr>`;
+    });
+  });
+  document.getElementById(bodyId).innerHTML=html;
+}
+
+function renderSueldos(){
+  renderSHTable('hostech','sh-hostech-body','h-sh-hostech-pct');
+  renderSHTable('sh','sh-sh-body','h-sh-sh-pct');
+
+  function calcSH(list){
+    if(!list.length)return{pct:0,done:0,prog:0};
+    const done=list.filter(i=>i.status==='entregado').length;
+    const prog=list.filter(i=>i.status==='en-proceso').length;
+    return{pct:Math.round((done+prog*0.5)/list.length*100),done,prog};
+  }
+  const ch=calcSH(sh.hostech), cs=calcSH(sh.sh);
+  const total=Math.round((ch.pct+cs.pct)/2);
+  const circ=251.3;
+  document.getElementById('ring-sh-total').setAttribute('stroke-dashoffset',circ-(circ*total/100));
+  document.getElementById('ring-sh-total-txt').textContent=total+'%';
+  document.getElementById('ring-sh-sub').textContent=`${ch.done+cs.done} entregables completados de ${sh.hostech.length+sh.sh.length} totales`;
+  document.getElementById('ring-sh-h').textContent=ch.pct+'%';
+  document.getElementById('ring-sh-e').textContent=cs.pct+'%';
+
+  const ETAPAS_SH=['Etapa 1','Etapa 2','Etapa 3','Etapa 4'];
+  const ECOL_SH={'Etapa 1':'#4563ff','Etapa 2':'#fad83f','Etapa 3':'#C40E91','Etapa 4':'#4A9FDC'};
+  let etHtml='';
+  ETAPAS_SH.forEach(et=>{
+    const all=[...sh.hostech,...sh.sh].filter(i=>i.etapa===et);
+    if(!all.length)return;
+    const done=all.filter(i=>i.status==='entregado').length;
+    const prog=all.filter(i=>i.status==='en-proceso').length;
+    const pct=Math.round((done+prog*0.5)/all.length*100);
+    const col=ECOL_SH[et];
+    let tag='';
+    if(pct===100) tag=`<span style="font-size:11px;font-weight:600;background:#d4f5e0;color:#1a6b3a;padding:2px 8px;border-radius:10px;border:1px solid #7dd6a0">✓ Completa</span>`;
+    else if(prog>0||done>0) tag=`<span style="font-size:11px;font-weight:600;background:#fef8d0;color:#8a6800;padding:2px 8px;border-radius:10px;border:1px solid #f0c840">En progreso</span>`;
+    else tag=`<span style="font-size:11px;font-weight:600;background:#f6f5ec;color:#8a7f75;padding:2px 8px;border-radius:10px;border:1px solid #e0d8ce">Sin iniciar</span>`;
+    const labels={'Etapa 1':'Valuación de Puestos','Etapa 2':'Competitividad','Etapa 3':'Tabulador Salarial','Etapa 4':'Política de Sueldos'};
+    etHtml+=`<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+      <div style="font-size:12px;font-weight:600;width:90px;flex-shrink:0;color:#3d3530">${et}</div>
+      <div style="font-size:11px;color:#8a7f75;width:130px;flex-shrink:0">${labels[et]}</div>
+      <div style="flex:1;height:12px;background:#e0d8ce;border-radius:6px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:${col};border-radius:6px;transition:width .6s"></div>
+      </div>
+      <div style="font-size:13px;font-weight:600;min-width:36px;text-align:right;color:#10100f">${pct}%</div>
+      <div style="min-width:90px">${tag}</div>
+      <div style="font-size:11px;color:#8a7f75;min-width:110px">${done} entregados · ${prog} en proceso</div>
+    </div>`;
+  });
+  document.getElementById('sh-etapas').innerHTML=etHtml;
+
+  const late=[...sh.hostech,...sh.sh].filter(i=>i.status==='con-retraso').length;
+  document.getElementById('sh-pills').innerHTML=`
+    <div class="cs-pill"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#fad83f;flex-shrink:0"></span><strong>${ch.pct}%</strong> Hostech cumple</div>
+    <div class="cs-pill"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#4563ff;flex-shrink:0"></span><strong>${cs.pct}%</strong> SH México entrega</div>
+    <div class="cs-pill"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#C40E91;flex-shrink:0"></span><strong>${total}%</strong> avance del proyecto</div>
+    ${late?`<div class="cs-pill" style="background:#fde8e8;border-color:#f0a0a0"><strong style="color:#8b1a1a">⚠ ${late}</strong> con retraso</div>`:''}
+  `;
+}
+</script>
+</body>
+</html>
