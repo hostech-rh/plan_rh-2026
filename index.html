@@ -96,6 +96,7 @@ tr:hover td{background:var(--white)}
 .sBlok{background:#fde8e8;color:#8b1a1a;border-color:#f0a0a0}
 .sPend{background:var(--white);color:var(--ink-muted);border-color:var(--border)}
 .sNa{background:#f1efe8;color:#b0a898;border-color:#d8d3c8;text-decoration:line-through;opacity:.7}
+.sRepr{background:#ede8ff;color:#4a28c4;border-color:#b8a8f0;font-style:italic}
 
 /* NOTES */
 .ni{font-family:'DM Sans',sans-serif;font-size:12.5px;padding:5px 9px;border:1px solid var(--border);border-radius:6px;background:transparent;color:var(--ink-soft);width:100%;min-width:110px;outline:none;transition:border-color .2s}
@@ -200,7 +201,8 @@ tr:hover td{background:var(--white)}
 .heat-wrap{background:#f6f5ec;border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:18px;border:1px solid #e0d8ce}
 .heat-wrap h3{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#8a7f75;margin-bottom:1rem}
 .heat-blocks{display:flex;gap:5px}
-.hb{flex:1;border-radius:8px;padding:8px 4px 6px;text-align:center;cursor:default}
+.hb{flex:1;border-radius:8px;padding:8px 4px 6px;text-align:center;cursor:pointer;transition:opacity .15s}
+.hb:hover{opacity:.8}
 .hb .hbm{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
 .hb .hbp{font-size:14px;font-weight:500}
 .hb.hb-current{outline:2px solid #C40E91;outline-offset:2px}
@@ -424,9 +426,10 @@ tr:hover td{background:var(--white)}
       <select class="fs" id="fSt" onchange="render()">
         <option value="">Todos los estados</option>
         <option>Completada</option><option>Iniciada</option><option>En progreso</option>
-        <option>Sin iniciar</option><option>Bloqueada</option><option>No aplica este año</option>
+        <option>Sin iniciar</option><option>Bloqueada</option><option>No aplica este año</option><option>Reprogramada</option>
       </select>
       <input class="fs" id="fQ" placeholder="Buscar tarea o responsable..." oninput="render()">
+      <button onclick="addTarea()" style="font-family:'DM Sans',sans-serif;font-size:13px;padding:8px 16px;border-radius:8px;background:#4563ff;color:#fff;border:none;cursor:pointer;white-space:nowrap;font-weight:500">+ Nueva tarea</button>
     </div>
     <div class="twrap">
       <table>
@@ -436,7 +439,9 @@ tr:hover td{background:var(--white)}
           <th>Acción</th>
           <th style="width:120px">Responsable</th>
           <th style="width:118px">Estado</th>
+          <th style="width:90px">Nuevo mes</th>
           <th>Notas</th>
+          <th style="width:28px"></th>
         </tr></thead>
         <tbody id="tbody"></tbody>
       </table>
@@ -803,7 +808,7 @@ const KEY='hostech_rh2026_v1';
 const MES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 const ESHORT={'Atracción y Retención de Talento':'AT','Capacitación':'CA','Desarrollo y Formación':'DF','Cultura y Comunicación interna':'CC','Procesos y Estructura RH':'PE'};
 const ECOL={AT:'#4563ff',CA:'#1a6b3a',DF:'#4a28c4',CC:'#8a6800',PE:'#b84a00'};
-const SCLS={'Completada':'sDone','Iniciada':'sInit','En progreso':'sProg','Bloqueada':'sBlok','Sin iniciar':'sPend','No aplica este año':'sNa'};
+const SCLS={'Completada':'sDone','Iniciada':'sInit','En progreso':'sProg','Bloqueada':'sBlok','Sin iniciar':'sPend','No aplica este año':'sNa','Reprogramada':'sRepr'};
 
 const SEED=[
   {id:1,mes:'Enero',eje:'Procesos y Estructura RH',accion:'Planeación y licitación de consultoras',resp:'Paloma/DG',status:'Completada',notas:'Plan del área, recursos solicitados y costos'},
@@ -872,8 +877,8 @@ let tasks=loadData(),stimer=null;
 function dsave(){clearTimeout(stimer);stimer=setTimeout(saveData,600);}
 
 function getStats(){
-  const na=tasks.filter(t=>t.status==='No aplica este año').length;
-  const active=tasks.filter(t=>t.status!=='No aplica este año');
+  const na=tasks.filter(t=>t.status==='No aplica este año'||t.status==='Reprogramada').length;
+  const active=tasks.filter(t=>t.status!=='No aplica este año'&&t.status!=='Reprogramada');
   const total=active.length,
     done=active.filter(t=>t.status==='Completada').length,
     init=active.filter(t=>t.status==='Iniciada').length,
@@ -897,7 +902,7 @@ function renderMeta(){
     ${s.na?`<div class="pill sNa" style="font-size:12px"><strong>${s.na}</strong> no aplica este año</div>`:''}
   `;
 }
-function scls(v){return{'Completada':'sDone','Iniciada':'sInit','En progreso':'sProg','Bloqueada':'sBlok','Sin iniciar':'sPend','No aplica este año':'sNa'}[v]||'sPend';}
+function scls(v){return{'Completada':'sDone','Iniciada':'sInit','En progreso':'sProg','Bloqueada':'sBlok','Sin iniciar':'sPend','No aplica este año':'sNa','Reprogramada':'sRepr'}[v]||'sPend';}
 function render(){
   const fM=document.getElementById('fMes').value,fE=document.getElementById('fEje').value,
     fS=document.getElementById('fSt').value,fQ=document.getElementById('fQ').value.toLowerCase();
@@ -925,9 +930,12 @@ function render(){
           <option ${t.status==='En progreso'?'selected':''}>En progreso</option>
           <option ${t.status==='Completada'?'selected':''}>Completada</option>
           <option ${t.status==='Bloqueada'?'selected':''}>Bloqueada</option>
+          <option ${t.status==='Reprogramada'?'selected':''}>Reprogramada</option>
           <option ${t.status==='No aplica este año'?'selected':''}>No aplica este año</option>
         </select></td>
+        <td>${t.status==='Reprogramada'?'<select class="fs" style="font-size:11px;padding:3px 6px;width:100%" onchange="upd('+t.id+',\'nuevoMes\',this.value)">'+MES.map(m=>'<option '+(t.nuevoMes===m?'selected':'')+'>'+m+'</option>').join('')+'</select>':'<span style="font-size:12px;color:var(--ink-faint)">—</span>'}</td>
         <td><input class="ni" type="text" value="${(t.notas||'').replace(/"/g,'&quot;')}" placeholder="Agregar nota..." onchange="upd(${t.id},'notas',this.value)"></td>
+        <td><button onclick="delTarea(${t.id})" style="background:none;border:none;cursor:pointer;color:var(--ink-faint);font-size:15px;padding:2px 4px;border-radius:4px" title="Eliminar">×</button></td>
       </tr>`;
     });
   });
@@ -936,12 +944,46 @@ function render(){
 }
 function upd(id,field,val){const t=tasks.find(x=>x.id===id);if(t){t[field]=val;dsave();renderMeta();if(document.getElementById('tab-dashboard').style.display!=='none')renderDash();}}
 
+function addTarea(){
+  const newId=Date.now();
+  const mes=document.getElementById('fMes').value||'Mayo';
+  tasks.push({id:newId,mes,eje:'Procesos y Estructura RH',accion:'Nueva tarea',resp:'Paloma',status:'Sin iniciar',notas:'',nuevoMes:''});
+  dsave();renderMeta();render();
+  // scroll a la nueva tarea
+  setTimeout(()=>{
+    const rows=document.querySelectorAll('#tbody tr');
+    if(rows.length) rows[rows.length-1].scrollIntoView({behavior:'smooth',block:'center'});
+  },100);
+}
+
+function delTarea(id){
+  if(!confirm('¿Eliminar esta tarea?'))return;
+  tasks=tasks.filter(x=>x.id!==id);
+  dsave();renderMeta();render();
+}
+
 // Helper global: % ponderado (Completada=1, Iniciada=0.5, No aplica excluida)
 function pctW(list){
-  const active=list.filter(t=>t.status!=='No aplica este año');
+  const active=list.filter(t=>t.status!=='No aplica este año'&&t.status!=='Reprogramada');
   if(!active.length)return 0;
   const pts=active.reduce((acc,t)=>acc+(t.status==='Completada'?1:t.status==='Iniciada'?0.5:0),0);
   return Math.round(pts/active.length*100);
+}
+
+function goToMes(mes){
+  // Ir a pestaña Tareas y filtrar por mes
+  const btn=document.querySelector('.ntab[onclick*="tareas"]');
+  if(btn) showTab('tareas',btn);
+  setTimeout(()=>{
+    document.getElementById('fMes').value=mes;
+    // limpiar otros filtros
+    document.getElementById('fEje').value='';
+    document.getElementById('fSt').value='';
+    document.getElementById('fQ').value='';
+    render();
+    // scroll suave al inicio de la tabla
+    window.scrollTo({top:0,behavior:'smooth'});
+  },50);
 }
 
 function renderDash(){
@@ -1001,13 +1043,13 @@ function renderEjecutivo(){
   let heatHtml='';
   MES.forEach((m,i)=>{
     const all=tasks.filter(t=>t.mes===m);
-    if(!all.length){heatHtml+=`<div class="hb${i===NOW_IDX?' hb-current':''}" style="background:#eeece3"><div class="hbm" style="color:#c4bbb0">${MES_SHORT[i]}</div><div class="hbp" style="color:#c4bbb0">–</div></div>`;return;}
+    if(!all.length){heatHtml+=`<div class="hb${i===NOW_IDX?' hb-current':''}" onclick="goToMes('${MES[i]}')" style="background:#eeece3"><div class="hbm" style="color:#c4bbb0">${MES_SHORT[i]}</div><div class="hbp" style="color:#c4bbb0">–</div></div>`;return;}
     const p=pctW(all);
     const alpha=p===100?1:p>0?0.5:0.1;
     const bg=`rgba(69,99,255,${alpha})`;
     const tc=alpha>0.6?'#ffffff':'#10100f';
     const tcs=alpha>0.6?'rgba(255,255,255,.65)':'#8a7f75';
-    heatHtml+=`<div class="hb${i===NOW_IDX?' hb-current':''}" style="background:${bg}"><div class="hbm" style="color:${tcs}">${MES_SHORT[i]}</div><div class="hbp" style="color:${tc}">${p}%</div></div>`;
+    heatHtml+=`<div class="hb${i===NOW_IDX?' hb-current':''}" onclick="goToMes('${MES[i]}')" style="background:${bg}"><div class="hbm" style="color:${tcs}">${MES_SHORT[i]}</div><div class="hbp" style="color:${tc}">${p}%</div></div>`;
   });
   document.getElementById('exec-heat').innerHTML=heatHtml;
 
