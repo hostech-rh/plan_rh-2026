@@ -443,12 +443,12 @@ tr:hover td{background:var(--white)}
         <thead><tr>
           <th style="width:66px">Mes</th>
           <th style="width:50px">Eje</th>
-          <th>Acción</th>
+          <th style="min-width:200px">Acción</th>
           <th style="width:110px">Responsable</th>
           <th style="width:118px">Estado</th>
           <th style="width:90px">Nuevo mes</th>
-          <th>Entregable obtenido</th>
-          <th>Notas</th>
+          <th style="min-width:160px">Entregable obtenido</th>
+          <th style="min-width:160px">Notas</th>
           <th style="width:28px"></th>
         </tr></thead>
         <tbody id="tbody"></tbody>
@@ -1106,8 +1106,8 @@ function render(){
           <option ${t.status==='No aplica este año'?'selected':''}>No aplica este año</option>
         </select></td>
         <td>${t.status==='Reprogramada'?'<select class="fs" style="font-size:11px;padding:3px 6px;width:100%" onchange="upd('+t.id+',\'nuevoMes\',this.value)">'+MES.map(m=>'<option '+(t.nuevoMes===m?'selected':'')+'>'+m+'</option>').join('')+'</select>':'<span style="font-size:12px;color:var(--ink-faint)">—</span>'}</td>
-        <td><input class="ni" type="text" value="${(t.entregable||'').replace(/"/g,'&quot;')}" placeholder="Opcional..." onchange="upd(${t.id},'entregable',this.value)"></td>
-        <td><input class="ni" type="text" value="${(t.notas||'').replace(/"/g,'&quot;')}" placeholder="Agregar nota..." onchange="upd(${t.id},'notas',this.value)"></td>
+        <td><input class="ni" type="text" value="${(t.entregable||'').replace(/"/g,'&quot;')}" placeholder="Opcional..." oninput="upd(${t.id},'entregable',this.value)" style="width:100%"></td>
+        <td><input class="ni" type="text" value="${(t.notas||'').replace(/"/g,'&quot;')}" placeholder="Agregar nota..." oninput="upd(${t.id},'notas',this.value)" style="width:100%"></td>
         <td><button onclick="delTarea(${t.id})" style="background:none;border:none;cursor:pointer;color:var(--ink-faint);font-size:15px;padding:2px 4px;border-radius:4px" title="Eliminar">×</button></td>
       </tr>`;
     });
