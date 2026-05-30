@@ -1975,7 +1975,7 @@ function renderComite(){
     html+=`<tr>
       <td><input class="vac-input" type="date" value="${i.fechaComite||''}" onchange="updComite('${i.id}','fechaComite',this.value)"></td>
       <td><select class="vac-input" onchange="updComite('${i.id}','area',this.value)"><option value="">— Área —</option>${areaOpts}</select></td>
-      <td><input id="cp-${i.id}" class="vac-input" type="text" value="${(i.pendiente||'').replace(/"/g,'&quot;')}" placeholder="Descripción del pendiente..." onchange="updComite('${i.id}','pendiente',this.value)" style="min-width:200px"></td>
+      <td style="min-width:260px"><textarea id="cp-${i.id}" class="vac-input" placeholder="Descripción del pendiente..." oninput="updComite('${i.id}','pendiente',this.value);this.style.height='auto';this.style.height=this.scrollHeight+'px'" style="width:100%;min-width:240px;resize:none;overflow:hidden;min-height:34px;line-height:1.4">${(i.pendiente||'').replace(/</g,'&lt;')}</textarea></td>
       <td><input class="vac-input" type="text" value="${(i.resp||'').replace(/"/g,'&quot;')}" placeholder="Responsable" onchange="updComite('${i.id}','resp',this.value)"></td>
       <td><select class="ssel ${sc.cls}" onchange="updComite('${i.id}','status',this.value);this.className='ssel '+(COM_STATUS.find(s=>s.val===this.value)||COM_STATUS[0]).cls">${stsOpts}</select></td>
       <td><input class="vac-input" type="date" value="${i.fechaCierre||''}" onchange="updComite('${i.id}','fechaCierre',this.value)" ${i.status!=='Completado'?'style="opacity:.4"':''}></td>
