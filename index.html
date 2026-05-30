@@ -1649,7 +1649,7 @@ function renderKPIs(){
           </div>
         </div>
         <div class="kpi-bar-bg"><div class="kpi-bar-fill" style="width:${bp}%;background:${bc}"></div></div>
-        <input class="kpi-note-input" type="text" value="${(k.notas||'').replace(/"/g,'&quot;')}" placeholder="Nota o contexto..." onchange="updKPI('${k.id}','notas',this.value)">
+        <textarea class="kpi-note-input" placeholder="Nota o contexto..." oninput="updKPI('${k.id}','notas',this.value);this.style.height='auto';this.style.height=this.scrollHeight+'px'" style="resize:none;overflow:hidden;min-height:28px;line-height:1.4">${(k.notas||'').replace(/</g,'&lt;')}</textarea>
       </div>`;
     }).join('');
   });
@@ -1728,11 +1728,11 @@ function renderHellenaTable(side, bodyId, pctId){
       const sc=hblStsCls(item.status);
       const stsOpts=HBL_STATUS.map(s=>`<option value="${s.val}"${item.status===s.val?' selected':''}>${s.label}</option>`).join('');
       html+=`<tr>
-        <td style="font-size:12px;color:#8a7f75">${item.etapa}</td>
-        <td>${item.item}</td>
+        <td style="font-size:12px;color:#8a7f75;white-space:nowrap">${item.etapa}</td>
+        <td style="min-width:200px"><textarea class="cons-ni" oninput="updHBL('${side}','${item.id}','item',this.value);this.style.height='auto';this.style.height=this.scrollHeight+'px'" style="width:100%;resize:none;overflow:hidden;min-height:28px;line-height:1.4;font-size:13px">${(item.item||'').replace(/</g,'&lt;')}</textarea></td>
         <td><input type="date" class="cons-ni" style="min-width:110px" value="${item.fecha||''}" onchange="updHBL('${side}','${item.id}','fecha',this.value)"></td>
         <td><select class="cons-sel ${sc}" onchange="updHBL('${side}','${item.id}','status',this.value);this.className='cons-sel '+hblStsCls(this.value)">${stsOpts}</select></td>
-        <td><input class="cons-ni" type="text" value="${(item.notas||'').replace(/"/g,'&quot;')}" placeholder="Agregar nota..." onchange="updHBL('${side}','${item.id}','notas',this.value)"></td>
+        <td style="min-width:150px"><textarea class="cons-ni" placeholder="Agregar nota..." oninput="updHBL('${side}','${item.id}','notas',this.value);this.style.height='auto';this.style.height=this.scrollHeight+'px'" style="width:100%;resize:none;overflow:hidden;min-height:28px;line-height:1.4">${(item.notas||'').replace(/</g,'&lt;')}</textarea></td>
       </tr>`;
     });
   });
@@ -1850,11 +1850,11 @@ function renderSHTable(side,bodyId,pctId){
       const sc=hblStsCls(item.status);
       const stsOpts=HBL_STATUS.map(s=>`<option value="${s.val}"${item.status===s.val?' selected':''}>${s.label}</option>`).join('');
       html+=`<tr>
-        <td style="font-size:12px;color:#8a7f75">${item.etapa}</td>
-        <td>${item.item}</td>
+        <td style="font-size:12px;color:#8a7f75;white-space:nowrap">${item.etapa}</td>
+        <td style="min-width:200px"><textarea class="cons-ni" oninput="updSH('${side}','${item.id}','item',this.value);this.style.height='auto';this.style.height=this.scrollHeight+'px'" style="width:100%;resize:none;overflow:hidden;min-height:28px;line-height:1.4;font-size:13px">${(item.item||'').replace(/</g,'&lt;')}</textarea></td>
         <td><input type="date" class="cons-ni" style="min-width:110px" value="${item.fecha||''}" onchange="updSH('${side}','${item.id}','fecha',this.value)"></td>
         <td><select class="cons-sel ${sc}" onchange="updSH('${side}','${item.id}','status',this.value);this.className='cons-sel '+hblStsCls(this.value)">${stsOpts}</select></td>
-        <td><input class="cons-ni" type="text" value="${(item.notas||'').replace(/"/g,'&quot;')}" placeholder="Agregar nota..." onchange="updSH('${side}','${item.id}','notas',this.value)"></td>
+        <td style="min-width:150px"><textarea class="cons-ni" placeholder="Agregar nota..." oninput="updSH('${side}','${item.id}','notas',this.value);this.style.height='auto';this.style.height=this.scrollHeight+'px'" style="width:100%;resize:none;overflow:hidden;min-height:28px;line-height:1.4">${(item.notas||'').replace(/</g,'&lt;')}</textarea></td>
       </tr>`;
     });
   });
