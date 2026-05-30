@@ -118,6 +118,7 @@ tr:hover td{background:var(--white)}
 .pitem{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border);gap:10px;font-size:13px}
 .pitem:last-child{border:none}
 .ptask{color:var(--ink-soft);flex:1;line-height:1.4}
+.ptask span:hover .eje-tip{opacity:1!important}
 .pmth{font-size:11px;font-weight:600;color:var(--ink-muted);flex-shrink:0}
 
 /* KPIs */
@@ -217,6 +218,8 @@ tr:hover td{background:var(--white)}
 .pend-row{display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px solid #e0d8ce;align-items:flex-start}
 .pend-row:last-child{border:none}
 .pend-nm{font-size:12px;color:#3d3530;flex:1;line-height:1.4}
+.pend-nm .eje-tip{opacity:0}
+.pend-nm span:hover .eje-tip{opacity:1!important}
 .pend-mes{font-size:11px;font-weight:600;color:#8a7f75;flex-shrink:0;background:#fff;padding:2px 7px;border-radius:10px;border:1px solid #e0d8ce}
 
 /* CONSULTORAS */
@@ -377,7 +380,10 @@ tr:hover td{background:var(--white)}
       Hostech
       <span>Plan RH 2026</span>
     </div>
-    <div class="saved-bar"><span class="sdot"></span><span id="saved-lbl">Cargando...</span></div>
+    <div class="saved-bar">
+      <button onclick="document.querySelector('.ntab[onclick*=ejecutivo]').click()" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#f6f5ec;font-size:13px;padding:5px 12px;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;margin-right:10px;transition:background .15s" title="Ir al Ejecutivo" onmouseover="this.style.background='rgba(255,255,255,.2)'" onmouseout="this.style.background='rgba(255,255,255,.1)'">🏠</button>
+      <span class="sdot"></span><span id="saved-lbl">Cargando...</span>
+    </div>
   </div>
 </header>
 
@@ -390,6 +396,7 @@ tr:hover td{background:var(--white)}
     <button class="ntab" onclick="showTab('vacantes',this)">Vacantes</button>
     <button class="ntab" onclick="showTab('hellena',this)">Hellena</button>
     <button class="ntab" onclick="showTab('sueldos',this)">Sueldos y Salarios</button>
+    <button class="ntab" onclick="showTab('comite',this)">Comité</button>
   </div>
 </nav>
 
@@ -434,12 +441,13 @@ tr:hover td{background:var(--white)}
     <div class="twrap">
       <table>
         <thead><tr>
-          <th style="width:72px">Mes</th>
-          <th style="width:56px">Eje</th>
+          <th style="width:66px">Mes</th>
+          <th style="width:50px">Eje</th>
           <th>Acción</th>
-          <th style="width:120px">Responsable</th>
+          <th style="width:110px">Responsable</th>
           <th style="width:118px">Estado</th>
           <th style="width:90px">Nuevo mes</th>
+          <th>Entregable obtenido</th>
           <th>Notas</th>
           <th style="width:28px"></th>
         </tr></thead>
@@ -489,8 +497,10 @@ tr:hover td{background:var(--white)}
   <div id="tab-ejecutivo">
 
     <!-- BIG NUMBERS -->
-    <div class="exec-big">
-      <div class="ring-card">
+    <div style="display:grid;grid-template-columns:auto 1fr;gap:14px;margin-bottom:18px;align-items:stretch">
+
+      <!-- ARO -->
+      <div class="ring-card" onclick="goToTareas()" style="cursor:pointer;transition:opacity .15s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'" title="Ver todas las tareas">
         <div class="rlbl">Avance general</div>
         <svg id="exec-ring" width="120" height="120" viewBox="0 0 120 120">
           <circle cx="60" cy="60" r="48" fill="none" stroke="#e0d8ce" stroke-width="10"/>
@@ -502,23 +512,61 @@ tr:hover td{background:var(--white)}
         </svg>
         <div style="font-size:12px;color:var(--ink-faint)" id="exec-ring-sub">de 58 tareas</div>
       </div>
-      <div class="e-card">
-        <div class="elbl">Completadas</div>
-        <div class="enum" id="exec-done">0</div>
-        <div class="esub">tareas cerradas</div>
+
+      <!-- TARJETAS DERECHAS -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:10px">
+
+        <!-- Completadas — verde grande -->
+        <div style="background:#d4f5e0;border-radius:12px;padding:1rem 1.25rem;display:flex;flex-direction:column;justify-content:space-between;grid-row:span 2;cursor:pointer;transition:opacity .15s" onclick="goToTareas('Completada')" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'" title="Ver tareas completadas">
+          <div style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#1a6b3a;opacity:.7">Completadas</div>
+          <div style="font-family:'DM Serif Display',serif;font-size:52px;line-height:1;color:#1a6b3a" id="exec-done">0</div>
+          <div style="font-size:12px;color:#1a6b3a;opacity:.6">tareas cerradas</div>
+        </div>
+
+        <!-- Iniciadas — cyan brand -->
+        <div style="background:#4A9FDC;border-radius:12px;padding:.875rem 1rem;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:opacity .15s" onclick="goToTareas('Iniciada')" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'" title="Ver tareas iniciadas">
+          <div>
+            <div style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:4px">Iniciadas</div>
+            <div style="font-family:'DM Serif Display',serif;font-size:32px;line-height:1;color:#fff" id="exec-init">0</div>
+          </div>
+          <div style="font-size:11px;color:rgba(255,255,255,.6);text-align:right">en<br>proceso</div>
+        </div>
+
+        <!-- En progreso — amarillo brand -->
+        <div style="background:#fad83f;border-radius:12px;padding:.875rem 1rem;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:opacity .15s" onclick="goToTareas('En progreso')" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'" title="Ver tareas en progreso">
+          <div>
+            <div style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(16,16,15,.5);margin-bottom:4px">En progreso</div>
+            <div style="font-family:'DM Serif Display',serif;font-size:32px;line-height:1;color:#10100f" id="exec-prog">0</div>
+          </div>
+          <div style="font-size:11px;color:rgba(16,16,15,.4);text-align:right">activas</div>
+        </div>
+
       </div>
-      <div class="e-card blue">
-        <div class="elbl">En progreso</div>
-        <div class="enum" id="exec-prog">0</div>
-        <div class="esub">tareas activas</div>
-      </div>
-      <div class="e-card cream">
-        <div class="elbl">Vacantes activas</div>
-        <div class="enum" id="exec-vac">0</div>
-        <div class="esub">en proceso</div>
+
+      <!-- VACANTES — dos tarjetas -->
+      <div></div><!-- spacer para alinear -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+
+        <!-- Vacantes activas — azul brand -->
+        <div style="background:#4563ff;border-radius:12px;padding:.875rem 1rem;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:opacity .15s" onclick="document.querySelector('.ntab[onclick*=vacantes]').click()" title="Ver detalle de vacantes">
+          <div>
+            <div style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:4px">Vacantes activas</div>
+            <div style="font-family:'DM Serif Display',serif;font-size:32px;line-height:1;color:#fff" id="exec-vac">0</div>
+          </div>
+          <div style="font-size:11px;color:rgba(255,255,255,.6);text-align:right">en<br>proceso</div>
+        </div>
+
+        <!-- Vacantes cubiertas — verde -->
+        <div style="background:#d4f5e0;border-radius:12px;padding:.875rem 1rem;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:opacity .15s" onclick="document.querySelector('.ntab[onclick*=vacantes]').click()" title="Ver detalle de vacantes">
+          <div>
+            <div style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#1a6b3a;opacity:.8;margin-bottom:4px">Vacantes cubiertas</div>
+            <div style="font-family:'DM Serif Display',serif;font-size:32px;line-height:1;color:#1a6b3a" id="exec-vac-cubiertas">0</div>
+          </div>
+          <div style="font-size:11px;color:#1a6b3a;opacity:.6;text-align:right">✓</div>
+        </div>
+
       </div>
     </div>
-
     <!-- MONTH HEATMAP -->
     <div class="heat-wrap">
       <h3>Progreso por mes</h3>
@@ -555,12 +603,71 @@ tr:hover td{background:var(--white)}
     <div class="hero" style="margin-bottom:1.5rem;padding-bottom:1.5rem">
       <div>
         <h2>Cobertura de <em>Vacantes</em></h2>
-        <p>Seguimiento de posiciones activas · días en proceso y tiempos de ingreso</p>
+        <p>Seguimiento · días hábiles con corte cada viernes · corte actual: <strong id="vac-corte"></strong></p>
       </div>
       <div>
         <button class="vac-add-btn" onclick="addVacante()">+ Nueva vacante</button>
       </div>
     </div>
+
+    <!-- MÉTRICAS SUPERIORES -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:1.5rem">
+      <!-- Plantilla activa - manual -->
+      <div style="background:#f6f5ec;border:1px solid #e0d8ce;border-radius:12px;padding:1rem;display:flex;flex-direction:column;gap:6px">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8a7f75">Plantilla activa</div>
+        <input id="vac-plantilla" type="number" min="0"
+          style="font-family:'DM Serif Display',serif;font-size:36px;line-height:1;color:#10100f;border:none;background:transparent;width:100%;outline:none;padding:0"
+          placeholder="0" onchange="saveVacMeta()">
+        <div style="font-size:11px;color:#8a7f75">colaboradores · dato manual</div>
+      </div>
+      <!-- Bajas del mes - manual -->
+      <div style="background:#f6f5ec;border:1px solid #e0d8ce;border-radius:12px;padding:1rem;display:flex;flex-direction:column;gap:6px">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8a7f75">Bajas del mes</div>
+        <input id="vac-bajas" type="number" min="0"
+          style="font-family:'DM Serif Display',serif;font-size:36px;line-height:1;color:#10100f;border:none;background:transparent;width:100%;outline:none;padding:0"
+          placeholder="0" onchange="saveVacMeta()">
+        <div style="font-size:11px;color:#8a7f75">dato manual · Supercompany</div>
+      </div>
+      <!-- Rotación calculada -->
+      <div style="background:#fad83f;border-radius:12px;padding:1rem;display:flex;flex-direction:column;gap:6px">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(16,16,15,.5)">Rotación del mes</div>
+        <div style="font-family:'DM Serif Display',serif;font-size:36px;line-height:1;color:#10100f" id="vac-rotacion">–</div>
+        <div style="font-size:11px;color:rgba(16,16,15,.4)">bajas / plantilla × 100</div>
+      </div>
+      <!-- Tiempo promedio reclutar -->
+      <div style="background:#4563ff;border-radius:12px;padding:1rem;display:flex;flex-direction:column;gap:6px">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6)">Tiempo prom. reclutamiento</div>
+        <div style="font-family:'DM Serif Display',serif;font-size:36px;line-height:1;color:#fff" id="vac-tprom">–</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.5)">días hábiles promedio</div>
+      </div>
+      <!-- Vacantes activas -->
+      <div style="background:#f6f5ec;border:1px solid #e0d8ce;border-radius:12px;padding:1rem;display:flex;flex-direction:column;gap:6px">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8a7f75">Vacantes activas</div>
+        <div style="font-family:'DM Serif Display',serif;font-size:36px;line-height:1;color:#10100f" id="vac-activas-n">0</div>
+        <div style="font-size:11px;color:#8a7f75">en proceso</div>
+      </div>
+      <!-- Vacantes cubiertas -->
+      <div style="background:#d4f5e0;border-radius:12px;padding:1rem;display:flex;flex-direction:column;gap:6px">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#1a6b3a;opacity:.7">Vacantes cubiertas</div>
+        <div style="font-family:'DM Serif Display',serif;font-size:36px;line-height:1;color:#1a6b3a" id="vac-cubiertas-n">0</div>
+        <div style="font-size:11px;color:#1a6b3a;opacity:.6">total acumulado</div>
+      </div>
+    </div>
+
+    <!-- GRÁFICAS POR MES -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:1.5rem">
+      <div style="background:#f6f5ec;border:1px solid #e0d8ce;border-radius:12px;padding:1.25rem">
+        <div style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8a7f75;margin-bottom:1rem">Vacantes solicitadas por mes</div>
+        <div id="vac-chart-sol" style="display:flex;gap:6px;align-items:flex-end;height:80px"></div>
+        <div id="vac-chart-sol-labels" style="display:flex;gap:6px;margin-top:4px"></div>
+      </div>
+      <div style="background:#f6f5ec;border:1px solid #e0d8ce;border-radius:12px;padding:1.25rem">
+        <div style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8a7f75;margin-bottom:1rem">Vacantes cubiertas por mes</div>
+        <div id="vac-chart-cub" style="display:flex;gap:6px;align-items:flex-end;height:80px"></div>
+        <div id="vac-chart-cub-labels" style="display:flex;gap:6px;margin-top:4px"></div>
+      </div>
+    </div>
+
     <div class="vac-summary" id="vac-summary"></div>
     <div style="overflow-x:auto">
       <table class="vac-table">
@@ -753,6 +860,63 @@ tr:hover td{background:var(--white)}
     </div>
   </div>
 
+  <!-- ── COMITÉ DE PLANEACIÓN ESTRATÉGICA ── -->
+  <div id="tab-comite" style="display:none">
+    <div class="hero" style="margin-bottom:1.5rem;padding-bottom:1.5rem">
+      <div>
+        <h2>Comité de <em>Planeación</em></h2>
+        <p>Seguimiento de pendientes asignados por área · carga adicional al plan</p>
+      </div>
+      <div>
+        <button onclick="addComite()" style="font-family:'DM Sans',sans-serif;font-size:13px;padding:9px 18px;border-radius:8px;background:#C40E91;color:#fff;border:none;cursor:pointer;font-weight:500">+ Nuevo pendiente</button>
+      </div>
+    </div>
+
+    <!-- RESUMEN -->
+    <div class="pills" id="comite-pills" style="margin-bottom:1.5rem"></div>
+
+    <!-- FILTROS -->
+    <div class="filters" style="margin-bottom:1.25rem">
+      <select class="fs" id="c-fArea" onchange="renderComite()">
+        <option value="">Todas las áreas</option>
+        <option>Dirección General</option>
+        <option>Operaciones</option>
+        <option>Ventas</option>
+        <option>Tecnología</option>
+        <option>Finanzas</option>
+        <option>Marketing</option>
+        <option>RH</option>
+        <option>Legal</option>
+        <option>Otra</option>
+      </select>
+      <select class="fs" id="c-fStatus" onchange="renderComite()">
+        <option value="">Todos los estados</option>
+        <option>Pendiente</option>
+        <option>En proceso</option>
+        <option>Completado</option>
+        <option>Cancelado</option>
+      </select>
+      <input class="fs" id="c-fQ" placeholder="Buscar pendiente..." oninput="renderComite()" style="flex:1">
+    </div>
+
+    <!-- TABLA -->
+    <div style="overflow-x:auto">
+      <table class="vac-table">
+        <thead><tr>
+          <th style="width:110px">Fecha comité</th>
+          <th style="width:120px">Área</th>
+          <th>Pendiente</th>
+          <th style="width:110px">Responsable</th>
+          <th style="width:115px">Estado</th>
+          <th style="width:110px">Fecha cierre</th>
+          <th>Notas</th>
+          <th style="width:28px"></th>
+        </tr></thead>
+        <tbody id="comite-body"></tbody>
+      </table>
+    </div>
+  </div>
+
 </main>
 
 <script>
@@ -789,12 +953,13 @@ async function initApp(){
     if(remote.kpis)    { kpis=remote.kpis;      localStorage.setItem(KPI_KEY,JSON.stringify(kpis)); }
     if(remote.hellena) { hbl=remote.hellena;    localStorage.setItem(HBL_KEY,JSON.stringify(hbl)); }
     if(remote.sueldos) { sh=remote.sueldos;     localStorage.setItem(SH_KEY,JSON.stringify(sh)); }
-    // Si Sheets estaba vacío, empuja el seed para sincronizar
+    if(remote.comite)  { comiteItems=remote.comite; localStorage.setItem(COM_KEY,JSON.stringify(comiteItems)); }
     if(!remote.tareas)   syncToSheets('tareas',tasks);
     if(!remote.vacantes) syncToSheets('vacantes',vacs);
     if(!remote.kpis)     syncToSheets('kpis',kpis);
     if(!remote.hellena)  syncToSheets('hellena',hbl);
     if(!remote.sueldos)  syncToSheets('sueldos',sh);
+    if(!remote.comite)   syncToSheets('comite',comiteItems);
     setSavedLabel('Datos sincronizados ✓');
   } else {
     // Sin conexión — empuja al menos al localStorage
@@ -920,11 +1085,18 @@ function render(){
     g[m].forEach(t=>{
       const sc=ESHORT[t.eje]||'',stc=scls(t.status);
       h+=`<tr>
-        <td style="color:var(--ink-muted);font-size:12px">${t.mes}</td>
+        <td style="color:var(--ink-muted);font-size:12px;white-space:nowrap">${t.mes}</td>
         <td><span class="eb e${sc}" title="${t.eje}">${sc}</span></td>
-        <td>${t.accion}</td>
+        <td style="min-width:180px;max-width:280px">
+          <input class="ni" style="font-size:13px;color:var(--ink);background:transparent;border-color:transparent;padding:2px 4px;width:100%;line-height:1.4;cursor:text" type="text" value="${t.accion.replace(/"/g,'&quot;')}"
+            onmouseover="this.style.borderColor='var(--border)'"
+            onmouseout="if(document.activeElement!==this)this.style.borderColor='transparent'"
+            onfocus="this.style.borderColor='var(--blue)';this.style.background='var(--white)'"
+            onblur="this.style.borderColor='transparent';this.style.background='transparent'"
+            onchange="upd(${t.id},'accion',this.value)">
+        </td>
         <td style="font-size:12px;color:var(--ink-muted)">${t.resp}</td>
-        <td><select class="ssel ${stc}" onchange="upd(${t.id},'status',this.value);this.className='ssel '+scls(this.value)">
+        <td><select class="ssel ${stc}" onchange="upd(${t.id},'status',this.value);this.className='ssel '+scls(this.value);render()">
           <option ${t.status==='Sin iniciar'?'selected':''}>Sin iniciar</option>
           <option ${t.status==='Iniciada'?'selected':''}>Iniciada</option>
           <option ${t.status==='En progreso'?'selected':''}>En progreso</option>
@@ -934,6 +1106,7 @@ function render(){
           <option ${t.status==='No aplica este año'?'selected':''}>No aplica este año</option>
         </select></td>
         <td>${t.status==='Reprogramada'?'<select class="fs" style="font-size:11px;padding:3px 6px;width:100%" onchange="upd('+t.id+',\'nuevoMes\',this.value)">'+MES.map(m=>'<option '+(t.nuevoMes===m?'selected':'')+'>'+m+'</option>').join('')+'</select>':'<span style="font-size:12px;color:var(--ink-faint)">—</span>'}</td>
+        <td><input class="ni" type="text" value="${(t.entregable||'').replace(/"/g,'&quot;')}" placeholder="Opcional..." onchange="upd(${t.id},'entregable',this.value)"></td>
         <td><input class="ni" type="text" value="${(t.notas||'').replace(/"/g,'&quot;')}" placeholder="Agregar nota..." onchange="upd(${t.id},'notas',this.value)"></td>
         <td><button onclick="delTarea(${t.id})" style="background:none;border:none;cursor:pointer;color:var(--ink-faint);font-size:15px;padding:2px 4px;border-radius:4px" title="Eliminar">×</button></td>
       </tr>`;
@@ -947,7 +1120,7 @@ function upd(id,field,val){const t=tasks.find(x=>x.id===id);if(t){t[field]=val;d
 function addTarea(){
   const newId=Date.now();
   const mes=document.getElementById('fMes').value||'Mayo';
-  tasks.push({id:newId,mes,eje:'Procesos y Estructura RH',accion:'Nueva tarea',resp:'Paloma',status:'Sin iniciar',notas:'',nuevoMes:''});
+  tasks.push({id:newId,mes,eje:'Procesos y Estructura RH',accion:'Nueva tarea',resp:'Paloma',status:'Sin iniciar',notas:'',entregable:'',nuevoMes:''});
   dsave();renderMeta();render();
   // scroll a la nueva tarea
   setTimeout(()=>{
@@ -968,6 +1141,20 @@ function pctW(list){
   if(!active.length)return 0;
   const pts=active.reduce((acc,t)=>acc+(t.status==='Completada'?1:t.status==='Iniciada'?0.5:0),0);
   return Math.round(pts/active.length*100);
+}
+
+function goToTareas(filtroStatus){
+  const btn=document.querySelector('.ntab[onclick*="tareas"]');
+  if(btn) showTab('tareas',btn);
+  setTimeout(()=>{
+    document.getElementById('fMes').value='';
+    document.getElementById('fEje').value='';
+    document.getElementById('fQ').value='';
+    if(filtroStatus) document.getElementById('fSt').value=filtroStatus;
+    else document.getElementById('fSt').value='';
+    render();
+    window.scrollTo({top:0,behavior:'smooth'});
+  },50);
 }
 
 function goToMes(mes){
@@ -1002,7 +1189,20 @@ function renderDash(){
   let rh='';Object.entries(rm).sort((a,b)=>b[1].tot-a[1].tot).slice(0,6).forEach(([r,v])=>{rh+=`<div class="rrow"><span><span class="av">${r.slice(0,2).toUpperCase()}</span>${r}</span><span style="font-size:12px;color:var(--ink-muted)">${Math.round(v.pts*2)/2}/${v.tot} ✓</span></div>`;});
   document.getElementById('cresp').innerHTML='<h3>Carga por responsable</h3>'+rh;
   const now=4,pend=tasks.filter(t=>MES.indexOf(t.mes)>=now&&t.status!=='Completada'&&t.status!=='Iniciada').slice(0,6);
-  let ph='';pend.forEach(t=>{const sc=ESHORT[t.eje]||'';ph+=`<div class="pitem"><span class="ptask"><span class="eb e${sc}" style="font-size:10px;padding:2px 6px;margin-right:6px">${sc}</span>${t.accion}</span><span class="pmth">${t.mes}</span></div>`;});
+  let ph='';pend.forEach(t=>{
+    const sc=ESHORT[t.eje]||'';
+    const ejeNombre=Object.keys(ESHORT).find(k=>ESHORT[k]===sc)||sc;
+    ph+=`<div class="pitem">
+      <span class="ptask">
+        <span class="eb e${sc}" style="font-size:10px;padding:2px 6px;margin-right:6px;cursor:pointer;position:relative"
+          onclick="goToMes('${t.mes}');setTimeout(()=>{document.getElementById('fEje').value='${t.eje}';render();},60)">
+          ${sc}
+          <span style="position:absolute;left:0;bottom:calc(100%+4px);background:#10100f;color:#f6f5ec;font-size:11px;font-weight:500;padding:4px 8px;border-radius:6px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s;z-index:10;min-width:150px" class="eje-tip">${ejeNombre}</span>
+        </span>${t.accion}
+      </span>
+      <span class="pmth">${t.mes}</span>
+    </div>`;
+  });
   document.getElementById('cpend').innerHTML='<h3>Próximas pendientes</h3>'+ph;
 }
 function showTab(tab,btn){
@@ -1014,12 +1214,14 @@ function showTab(tab,btn){
   document.getElementById('tab-ejecutivo').style.display=tab==='ejecutivo'?'':'none';
   document.getElementById('tab-hellena').style.display=tab==='hellena'?'':'none';
   document.getElementById('tab-sueldos').style.display=tab==='sueldos'?'':'none';
+  document.getElementById('tab-comite').style.display=tab==='comite'?'':'none';
   if(tab==='dashboard')renderDash();
   if(tab==='kpis')renderKPIs();
-  if(tab==='vacantes')renderVacantes();
+  if(tab==='vacantes'){renderVacantes();renderVacMetrics();}
   if(tab==='ejecutivo')renderEjecutivo();
   if(tab==='hellena')renderHellena();
   if(tab==='sueldos')renderSueldos();
+  if(tab==='comite')renderComite();
 }
 
 function renderEjecutivo(){
@@ -1032,10 +1234,13 @@ function renderEjecutivo(){
   document.getElementById('exec-ring-sub').textContent=s.done+' completas · '+s.init+' iniciadas (×0.5)';
   document.getElementById('exec-ring-sub').style.color='#8a7f75';
   document.getElementById('exec-done').textContent=s.done;
+  document.getElementById('exec-init').textContent=s.init;
   document.getElementById('exec-prog').textContent=s.prog;
-  // Vacantes activas
+  // Vacantes activas y cubiertas
   const vacActivas=(typeof vacs!=='undefined')?vacs.filter(v=>!['cubierta','cubierta-fuera'].includes(v.status)).length:0;
+  const vacCubiertas=(typeof vacs!=='undefined')?vacs.filter(v=>['cubierta','cubierta-fuera'].includes(v.status)).length:0;
   document.getElementById('exec-vac').textContent=vacActivas;
+  document.getElementById('exec-vac-cubiertas').textContent=vacCubiertas;
 
   // Heatmap
   const MES_SHORT=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
@@ -1060,9 +1265,12 @@ function renderEjecutivo(){
     const code=ESHORT[name];
     const all=tasks.filter(t=>t.eje===name);
     const p=pctW(all);
-    ejHtml+=`<div class="ex-bar-row">
-      <div class="ex-bar-code">${code}</div>
-      <div class="ex-bar-bg"><div class="ex-bar-fill" style="width:${p}%;background:${ECOL[code]}"></div></div>
+  ejHtml+=`<div class="ex-bar-row" style="position:relative">
+      <div class="ex-bar-code" style="cursor:default;position:relative">
+        ${code}
+        <span style="position:absolute;left:0;bottom:calc(100% + 4px);background:#10100f;color:#f6f5ec;font-size:11px;font-weight:500;padding:4px 8px;border-radius:6px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s;z-index:10" class="eje-tip">${name}</span>
+      </div>
+      <div class="ex-bar-bg" onmouseenter="this.previousElementSibling.querySelector('.eje-tip').style.opacity='1'" onmouseleave="this.previousElementSibling.querySelector('.eje-tip').style.opacity='0'"><div class="ex-bar-fill" style="width:${p}%;background:${ECOL[code]}"></div></div>
       <div class="ex-bar-pct">${p}%</div>
     </div>`;
   });
@@ -1095,7 +1303,16 @@ function renderEjecutivo(){
   if(!pending.length){pendHtml='<div style="font-size:13px;color:var(--ink-muted);padding:8px 0">✓ Todas las tareas del mes completadas</div>';}
   else{pending.forEach(t=>{
     const sc=ESHORT[t.eje]||'';
-    pendHtml+=`<div class="pend-row"><div class="pend-nm"><span class="eb e${sc}" style="font-size:10px;padding:2px 5px;margin-right:5px">${sc}</span>${t.accion}</div><div class="pend-mes">${t.mes}</div></div>`;
+    const ejeNombre=Object.keys(ESHORT).find(k=>ESHORT[k]===sc)||sc;
+    pendHtml+=`<div class="pend-row">
+      <div class="pend-nm">
+        <span class="eb e${sc}" style="font-size:10px;padding:2px 5px;margin-right:5px;cursor:pointer;position:relative" 
+          title="${ejeNombre}"
+          onclick="goToMes('${t.mes}');setTimeout(()=>{document.getElementById('fEje').value='${t.eje}';render();},60)"
+        >${sc}<span style="position:absolute;left:0;bottom:calc(100% + 4px);background:#10100f;color:#f6f5ec;font-size:11px;font-weight:500;padding:4px 8px;border-radius:6px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s;z-index:10;min-width:160px" class="eje-tip">${ejeNombre}</span></span>${t.accion}
+      </div>
+      <div class="pend-mes">${t.mes}</div>
+    </div>`;
   });}
   document.getElementById('exec-pending').innerHTML=pendHtml;
 
@@ -1137,6 +1354,89 @@ const STATUS_VAC=[
   {val:'cubierta-fuera',label:'Cubierta f/tiempo',  cls:'vs-cubierta-fuera'},
   {val:'por-ingresar',label:'Por ingresar',         cls:'vs-por-ingresar'},
 ];
+// ── VACANTES META (plantilla, bajas) ──
+const VAC_META_KEY='hostech_vac_meta_v1';
+function loadVacMeta(){try{return JSON.parse(localStorage.getItem(VAC_META_KEY))||{plantilla:'',bajas:''};}catch{return{plantilla:'',bajas:''};}}
+function saveVacMeta(){
+  const meta={plantilla:document.getElementById('vac-plantilla').value,bajas:document.getElementById('vac-bajas').value};
+  localStorage.setItem(VAC_META_KEY,JSON.stringify(meta));
+  renderVacMetrics();
+}
+
+function renderVacMetrics(){
+  // Fecha de corte
+  const corte=lastFriday();
+  const el=document.getElementById('vac-corte');
+  if(el) el.textContent=new Date(corte+'T12:00:00').toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long'});
+
+  const meta=loadVacMeta();
+  const pEl=document.getElementById('vac-plantilla');
+  const bEl=document.getElementById('vac-bajas');
+  if(pEl&&!pEl.value) pEl.value=meta.plantilla;
+  if(bEl&&!bEl.value) bEl.value=meta.bajas;
+
+  // Rotación
+  const plantilla=parseFloat(meta.plantilla)||0;
+  const bajas=parseFloat(meta.bajas)||0;
+  const rotEl=document.getElementById('vac-rotacion');
+  if(rotEl) rotEl.textContent=plantilla>0?(bajas/plantilla*100).toFixed(1)+'%':'–';
+
+  // Tiempo promedio reclutamiento
+  const cubiertas=vacs.filter(v=>v.fechaSolicitud&&v.fechaIngreso&&['cubierta','cubierta-fuera'].includes(v.status));
+  const tprom=cubiertas.length?Math.round(cubiertas.reduce((acc,v)=>acc+daysBetween(v.fechaSolicitud,v.fechaIngreso),0)/cubiertas.length):null;
+  const tpEl=document.getElementById('vac-tprom');
+  if(tpEl) tpEl.textContent=tprom?tprom+' días':'–';
+
+  // Conteos
+  const activas=vacs.filter(v=>!['cubierta','cubierta-fuera'].includes(v.status)).length;
+  const cubiertasN=vacs.filter(v=>['cubierta','cubierta-fuera'].includes(v.status)).length;
+  const aEl=document.getElementById('vac-activas-n');
+  const cEl=document.getElementById('vac-cubiertas-n');
+  if(aEl) aEl.textContent=activas;
+  if(cEl) cEl.textContent=cubiertasN;
+
+  // Gráficas por mes
+  renderVacChart();
+}
+
+function renderVacChart(){
+  const MESES_SHORT=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  // Solicitadas por mes (por fechaSolicitud)
+  const solPorMes={};
+  vacs.forEach(v=>{
+    if(!v.fechaSolicitud)return;
+    const m=new Date(v.fechaSolicitud+'T12:00:00').getMonth();
+    solPorMes[m]=(solPorMes[m]||0)+1;
+  });
+  // Cubiertas por mes (por fechaIngreso)
+  const cubPorMes={};
+  vacs.filter(v=>v.fechaIngreso&&['cubierta','cubierta-fuera'].includes(v.status)).forEach(v=>{
+    const m=new Date(v.fechaIngreso+'T12:00:00').getMonth();
+    cubPorMes[m]=(cubPorMes[m]||0)+1;
+  });
+
+  function renderBar(containerId, labelId, data, color){
+    const el=document.getElementById(containerId);
+    const lel=document.getElementById(labelId);
+    if(!el||!lel)return;
+    const meses=Object.keys(data).map(Number).sort((a,b)=>a-b);
+    if(!meses.length){el.innerHTML='<div style="font-size:12px;color:#c8c7be;padding:8px">Sin datos aún</div>';lel.innerHTML='';return;}
+    const max=Math.max(...Object.values(data));
+    el.innerHTML=meses.map(m=>{
+      const v=data[m]||0;
+      const h=max?Math.round(v/max*72):0;
+      return `<div style="display:flex;flex-direction:column;align-items:center;gap:2px;flex:1">
+        <div style="font-size:11px;font-weight:600;color:#3d3530">${v}</div>
+        <div style="width:100%;max-width:36px;height:${h}px;min-height:4px;background:${color};border-radius:4px 4px 0 0"></div>
+      </div>`;
+    }).join('');
+    lel.innerHTML=meses.map(m=>`<div style="flex:1;text-align:center;font-size:10px;color:#8a7f75">${MESES_SHORT[m]}</div>`).join('');
+  }
+
+  renderBar('vac-chart-sol','vac-chart-sol-labels',solPorMes,'#4563ff');
+  renderBar('vac-chart-cub','vac-chart-cub-labels',cubPorMes,'#1a6b3a');
+}
+
 function loadVac(){try{const r=localStorage.getItem(VAC_KEY);return r?JSON.parse(r):[];}catch{return[];}}
 function saveVac(){localStorage.setItem(VAC_KEY,JSON.stringify(vacs));const t=new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});setSavedLabel('Guardado '+t);syncToSheets('vacantes',vacs);}
 let vacs=loadVac(), vtimer=null;
@@ -1175,6 +1475,14 @@ function autoStatus(v){
 }
 
 // Días hábiles (lunes–viernes) entre dos fechas ISO string
+// Último viernes como fecha de corte
+function lastFriday(){
+  const d=new Date();
+  const daysSinceFri=(d.getDay()+2)%7; // Fri=0, Sat=1, Sun=2, Mon=3...
+  d.setDate(d.getDate()-daysSinceFri);
+  return d.toISOString().slice(0,10);
+}
+
 function daysBetween(d1,d2){
   if(!d1||!d2)return 0;
   let start=new Date(d1+'T12:00:00'), end=new Date(d2+'T12:00:00');
@@ -1190,7 +1498,8 @@ function daysBetween(d1,d2){
 
 function diasActivosStr(v){
   if(!v.fechaSolicitud)return'–';
-  const end=v.fechaIngreso||new Date().toISOString().slice(0,10);
+  // Si ya ingresó, usar fecha de ingreso; si no, corte al último viernes
+  const end=v.fechaIngreso||lastFriday();
   return daysBetween(v.fechaSolicitud,end);
 }
 
@@ -1605,6 +1914,76 @@ function renderSueldos(){
     <div class="cs-pill"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#C40E91;flex-shrink:0"></span><strong>${total}%</strong> avance del proyecto</div>
     ${late?`<div class="cs-pill" style="background:#fde8e8;border-color:#f0a0a0"><strong style="color:#8b1a1a">⚠ ${late}</strong> con retraso</div>`:''}
   `;
+}
+// ── COMITÉ DE PLANEACIÓN ESTRATÉGICA ──
+const COM_KEY='hostech_comite_v1';
+const COM_STATUS=[
+  {val:'Pendiente',  cls:'sPend', color:'#c8c7be'},
+  {val:'En proceso', cls:'sProg', color:'#8a6800'},
+  {val:'Completado', cls:'sDone', color:'#1a6b3a'},
+  {val:'Cancelado',  cls:'sNa',   color:'#b0a898'},
+];
+
+function loadComite(){try{const r=localStorage.getItem(COM_KEY);return r?JSON.parse(r):[];}catch{return[];}}
+function saveComite(){localStorage.setItem(COM_KEY,JSON.stringify(comiteItems));const t=new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});setSavedLabel('Guardado '+t);syncToSheets('comite',comiteItems);}
+let comiteItems=loadComite(), ctimer=null;
+function dcsave(){clearTimeout(ctimer);ctimer=setTimeout(saveComite,600);}
+function updComite(id,field,val){const item=comiteItems.find(x=>x.id===id);if(item){item[field]=val;dcsave();renderComite();}}
+function delComite(id){if(!confirm('¿Eliminar este pendiente?'))return;comiteItems=comiteItems.filter(x=>x.id!==id);dcsave();renderComite();}
+
+function addComite(){
+  const id='c'+Date.now();
+  comiteItems.unshift({id,fechaComite:new Date().toISOString().slice(0,10),area:'',pendiente:'',resp:'Paloma',status:'Pendiente',fechaCierre:'',notas:''});
+  dcsave();renderComite();
+  setTimeout(()=>{const el=document.getElementById('cp-'+id);if(el)el.focus();},80);
+}
+
+function renderComite(){
+  const fA=document.getElementById('c-fArea').value;
+  const fS=document.getElementById('c-fStatus').value;
+  const fQ=document.getElementById('c-fQ').value.toLowerCase();
+
+  const filtered=comiteItems.filter(i=>{
+    if(fA&&i.area!==fA)return false;
+    if(fS&&i.status!==fS)return false;
+    if(fQ&&!i.pendiente.toLowerCase().includes(fQ)&&!i.area.toLowerCase().includes(fQ))return false;
+    return true;
+  });
+
+  // Pills resumen
+  const total=comiteItems.length;
+  const pend=comiteItems.filter(i=>i.status==='Pendiente').length;
+  const proc=comiteItems.filter(i=>i.status==='En proceso').length;
+  const done=comiteItems.filter(i=>i.status==='Completado').length;
+  document.getElementById('comite-pills').innerHTML=`
+    <div class="pill"><span class="pdot" style="background:var(--ink)"></span><strong>${total}</strong> pendientes totales</div>
+    <div class="pill"><span class="pdot" style="background:#c8c7be"></span><strong>${pend}</strong> pendientes</div>
+    <div class="pill"><span class="pdot" style="background:#8a6800"></span><strong>${proc}</strong> en proceso</div>
+    <div class="pill"><span class="pdot" style="background:#1a6b3a"></span><strong>${done}</strong> completados</div>
+  `;
+
+  // Tabla
+  let html='';
+  if(!filtered.length){
+    html='<tr><td colspan="8" style="padding:2rem;text-align:center;color:var(--ink-muted)">No hay pendientes · clic en "+ Nuevo pendiente" para agregar</td></tr>';
+  }
+  filtered.forEach(i=>{
+    const sc=COM_STATUS.find(s=>s.val===i.status)||COM_STATUS[0];
+    const stsOpts=COM_STATUS.map(s=>`<option value="${s.val}"${i.status===s.val?' selected':''}>${s.val}</option>`).join('');
+    const AREAS=['Dirección General','Operaciones','Ventas','Tecnología','Finanzas','Marketing','RH','Legal','Otra'];
+    const areaOpts=AREAS.map(a=>`<option value="${a}"${i.area===a?' selected':''}>${a}</option>`).join('');
+    html+=`<tr>
+      <td><input class="vac-input" type="date" value="${i.fechaComite||''}" onchange="updComite('${i.id}','fechaComite',this.value)"></td>
+      <td><select class="vac-input" onchange="updComite('${i.id}','area',this.value)"><option value="">— Área —</option>${areaOpts}</select></td>
+      <td><input id="cp-${i.id}" class="vac-input" type="text" value="${(i.pendiente||'').replace(/"/g,'&quot;')}" placeholder="Descripción del pendiente..." onchange="updComite('${i.id}','pendiente',this.value)" style="min-width:200px"></td>
+      <td><input class="vac-input" type="text" value="${(i.resp||'').replace(/"/g,'&quot;')}" placeholder="Responsable" onchange="updComite('${i.id}','resp',this.value)"></td>
+      <td><select class="ssel ${sc.cls}" onchange="updComite('${i.id}','status',this.value);this.className='ssel '+(COM_STATUS.find(s=>s.val===this.value)||COM_STATUS[0]).cls">${stsOpts}</select></td>
+      <td><input class="vac-input" type="date" value="${i.fechaCierre||''}" onchange="updComite('${i.id}','fechaCierre',this.value)" ${i.status!=='Completado'?'style="opacity:.4"':''}></td>
+      <td><input class="vac-input" type="text" value="${(i.notas||'').replace(/"/g,'&quot;')}" placeholder="Nota..." onchange="updComite('${i.id}','notas',this.value)"></td>
+      <td><button class="del-btn" onclick="delComite('${i.id}')" title="Eliminar">×</button></td>
+    </tr>`;
+  });
+  document.getElementById('comite-body').innerHTML=html;
 }
 </script>
 </body>
