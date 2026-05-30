@@ -1088,12 +1088,13 @@ function render(){
         <td style="color:var(--ink-muted);font-size:12px;white-space:nowrap">${t.mes}</td>
         <td><span class="eb e${sc}" title="${t.eje}">${sc}</span></td>
         <td style="min-width:180px;max-width:280px">
-          <input class="ni" style="font-size:13px;color:var(--ink);background:transparent;border-color:transparent;padding:2px 4px;width:100%;line-height:1.4;cursor:text" type="text" value="${t.accion.replace(/"/g,'&quot;')}"
+          <textarea class="ni" style="font-size:13px;color:var(--ink);background:transparent;border-color:transparent;padding:2px 4px;width:100%;line-height:1.4;cursor:text;resize:none;overflow:hidden;min-height:28px"
             onmouseover="this.style.borderColor='var(--border)'"
             onmouseout="if(document.activeElement!==this)this.style.borderColor='transparent'"
             onfocus="this.style.borderColor='var(--blue)';this.style.background='var(--white)'"
             onblur="this.style.borderColor='transparent';this.style.background='transparent'"
-            onchange="upd(${t.id},'accion',this.value)">
+            oninput="upd(${t.id},'accion',this.value);this.style.height='auto';this.style.height=this.scrollHeight+'px'"
+          >${t.accion.replace(/</g,'&lt;')}</textarea>
         </td>
         <td style="font-size:12px;color:var(--ink-muted)">${t.resp}</td>
         <td><select class="ssel ${stc}" onchange="upd(${t.id},'status',this.value);this.className='ssel '+scls(this.value);render()">
@@ -1106,8 +1107,8 @@ function render(){
           <option ${t.status==='No aplica este año'?'selected':''}>No aplica este año</option>
         </select></td>
         <td>${t.status==='Reprogramada'?'<select class="fs" style="font-size:11px;padding:3px 6px;width:100%" onchange="upd('+t.id+',\'nuevoMes\',this.value)">'+MES.map(m=>'<option '+(t.nuevoMes===m?'selected':'')+'>'+m+'</option>').join('')+'</select>':'<span style="font-size:12px;color:var(--ink-faint)">—</span>'}</td>
-        <td><input class="ni" type="text" value="${(t.entregable||'').replace(/"/g,'&quot;')}" placeholder="Opcional..." oninput="upd(${t.id},'entregable',this.value)" style="width:100%"></td>
-        <td><input class="ni" type="text" value="${(t.notas||'').replace(/"/g,'&quot;')}" placeholder="Agregar nota..." oninput="upd(${t.id},'notas',this.value)" style="width:100%"></td>
+        <td style="min-width:160px"><textarea class="ni" placeholder="Opcional..." oninput="upd(${t.id},'entregable',this.value);this.style.height='auto';this.style.height=this.scrollHeight+'px'" style="width:100%;resize:none;overflow:hidden;min-height:28px;line-height:1.4">${(t.entregable||'').replace(/</g,'&lt;')}</textarea></td>
+        <td style="min-width:160px"><textarea class="ni" placeholder="Agregar nota..." oninput="upd(${t.id},'notas',this.value);this.style.height='auto';this.style.height=this.scrollHeight+'px'" style="width:100%;resize:none;overflow:hidden;min-height:28px;line-height:1.4">${(t.notas||'').replace(/</g,'&lt;')}</textarea></td>
         <td><button onclick="delTarea(${t.id})" style="background:none;border:none;cursor:pointer;color:var(--ink-faint);font-size:15px;padding:2px 4px;border-radius:4px" title="Eliminar">×</button></td>
       </tr>`;
     });
