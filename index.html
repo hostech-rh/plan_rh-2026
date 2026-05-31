@@ -397,7 +397,6 @@ tr:hover td{background:var(--white)}
     <button class="ntab" onclick="showTab('hellena',this)">Hellena</button>
     <button class="ntab" onclick="showTab('sueldos',this)">Sueldos y Salarios</button>
     <button class="ntab" onclick="showTab('comite',this)">Comité</button>
-    <button class="ntab" onclick="showTab('junta',this)">Junta Semanal</button>
   </div>
 </nav>
 
@@ -915,55 +914,6 @@ tr:hover td{background:var(--white)}
       </table>
     </div>
   <!-- ── JUNTA SEMANAL ── -->
-  <div id="tab-junta" style="display:none">
-    <div class="hero" style="margin-bottom:1.5rem;padding-bottom:1.5rem">
-      <div>
-        <h2>Junta <em>Semanal</em></h2>
-        <p>Miércoles con dirección · pendientes, casos de personal y notas · historial continuo</p>
-      </div>
-      <button onclick="addJunta()" style="font-family:'DM Sans',sans-serif;font-size:13px;padding:9px 18px;border-radius:8px;background:#C40E91;color:#fff;border:none;cursor:pointer;font-weight:500;white-space:nowrap">+ Nueva junta</button>
-    </div>
-
-    <!-- RESUMEN DE CARGA -->
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem">
-      <div style="background:#f6f5ec;border:1px solid #e0d8ce;border-radius:12px;padding:1rem">
-        <div style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8a7f75;margin-bottom:6px">Total pendientes</div>
-        <div style="font-family:'DM Serif Display',serif;font-size:36px;color:#10100f" id="j-total">0</div>
-      </div>
-      <div style="background:#fad83f;border-radius:12px;padding:1rem">
-        <div style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(16,16,15,.5);margin-bottom:6px">Yo resuelvo</div>
-        <div style="font-family:'DM Serif Display',serif;font-size:36px;color:#10100f" id="j-yo">0</div>
-      </div>
-      <div style="background:#4563ff;border-radius:12px;padding:1rem">
-        <div style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:6px">A delegar</div>
-        <div style="font-family:'DM Serif Display',serif;font-size:36px;color:#fff" id="j-delegar">0</div>
-      </div>
-      <div style="background:#d4f5e0;border-radius:12px;padding:1rem">
-        <div style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#1a6b3a;opacity:.7;margin-bottom:6px">Resueltos</div>
-        <div style="font-family:'DM Serif Display',serif;font-size:36px;color:#1a6b3a" id="j-resueltos">0</div>
-      </div>
-    </div>
-
-    <!-- FILTROS -->
-    <div class="filters" style="margin-bottom:1.25rem">
-      <select class="fs" id="j-fStatus" onchange="renderJunta()">
-        <option value="">Todos los estados</option>
-        <option>Pendiente</option>
-        <option>En seguimiento</option>
-        <option>Resuelto</option>
-      </select>
-      <select class="fs" id="j-fOwner" onchange="renderJunta()">
-        <option value="">Toda la carga</option>
-        <option>Yo resuelvo</option>
-        <option>Delegar</option>
-        <option>Director</option>
-      </select>
-      <input class="fs" id="j-fQ" placeholder="Buscar..." oninput="renderJunta()" style="flex:1">
-    </div>
-
-    <!-- LISTA DE JUNTAS -->
-    <div id="junta-list"></div>
-  </div>
 
 </main>
 
@@ -993,34 +943,33 @@ async function loadFromSheets(){
 }
 
 async function initApp(){
-  // Renderiza inmediato con datos locales
-  setSavedLabel("Cargando...");
+  try {
+    // Sincroniza con Sheets
+    setSavedLabel('Sincronizando...');
+    const remote = await loadFromSheets();
+    if(remote){
+      if(remote.tareas)  { tasks=remote.tareas;  localStorage.setItem(KEY,JSON.stringify(tasks)); }
+      if(remote.vacantes){ vacs=remote.vacantes;  localStorage.setItem(VAC_KEY,JSON.stringify(vacs)); }
+      if(remote.kpis)    { kpis=remote.kpis;      localStorage.setItem(KPI_KEY,JSON.stringify(kpis)); }
+      if(remote.hellena) { hbl=remote.hellena;    localStorage.setItem(HBL_KEY,JSON.stringify(hbl)); }
+      if(remote.sueldos) { sh=remote.sueldos;     localStorage.setItem(SH_KEY,JSON.stringify(sh)); }
+      if(remote.comite)  { comiteItems=remote.comite; localStorage.setItem(COM_KEY,JSON.stringify(comiteItems)); }
+      if(!remote.tareas)   syncToSheets('tareas',tasks);
+      if(!remote.vacantes) syncToSheets('vacantes',vacs);
+      if(!remote.kpis)     syncToSheets('kpis',kpis);
+      if(!remote.hellena)  syncToSheets('hellena',hbl);
+      if(!remote.sueldos)  syncToSheets('sueldos',sh);
+      if(!remote.comite)   syncToSheets('comite',comiteItems);
+      setSavedLabel('Datos sincronizados ✓');
+    } else {
+      setSavedLabel('Modo local · sin conexión');
+    }
+  } catch(e) {
+    setSavedLabel('Modo local · sin conexión');
+  }
+  // Renderiza siempre al final
   render();
   renderEjecutivo();
-  // Sincroniza con Sheets en segundo plano
-  setSavedLabel("Sincronizando...");
-  const remote = await loadFromSheets();
-  if(remote){
-    let changed=false;
-    if(remote.tareas)  { tasks=remote.tareas;  localStorage.setItem(KEY,JSON.stringify(tasks)); changed=true; }
-    if(remote.vacantes){ vacs=remote.vacantes;  localStorage.setItem(VAC_KEY,JSON.stringify(vacs)); changed=true; }
-    if(remote.kpis)    { kpis=remote.kpis;      localStorage.setItem(KPI_KEY,JSON.stringify(kpis)); changed=true; }
-    if(remote.hellena) { hbl=remote.hellena;    localStorage.setItem(HBL_KEY,JSON.stringify(hbl)); changed=true; }
-    if(remote.sueldos) { sh=remote.sueldos;     localStorage.setItem(SH_KEY,JSON.stringify(sh)); changed=true; }
-    if(remote.comite)  { comiteItems=remote.comite; localStorage.setItem(COM_KEY,JSON.stringify(comiteItems)); changed=true; }
-    if(remote.junta)   { juntas=remote.junta;   localStorage.setItem(JUNTA_KEY,JSON.stringify(juntas)); changed=true; }
-    if(!remote.tareas)   syncToSheets("tareas",tasks);
-    if(!remote.vacantes) syncToSheets("vacantes",vacs);
-    if(!remote.kpis)     syncToSheets("kpis",kpis);
-    if(!remote.hellena)  syncToSheets("hellena",hbl);
-    if(!remote.sueldos)  syncToSheets("sueldos",sh);
-    if(!remote.comite)   syncToSheets("comite",comiteItems);
-    if(!remote.junta)    syncToSheets("junta",juntas);
-    if(changed){ render(); renderEjecutivo(); }
-    setSavedLabel("Datos sincronizados u2713");
-  } else {
-    setSavedLabel("Modo local u00b7 sin conexiu00f3n");
-  }
 }
 
 const KEY='hostech_rh2026_v1';
@@ -1270,7 +1219,6 @@ function showTab(tab,btn){
   document.getElementById('tab-hellena').style.display=tab==='hellena'?'':'none';
   document.getElementById('tab-sueldos').style.display=tab==='sueldos'?'':'none';
   document.getElementById('tab-comite').style.display=tab==='comite'?'':'none';
-  document.getElementById('tab-junta').style.display=tab==='junta'?'':'none';
   if(tab==='dashboard')renderDash();
   if(tab==='kpis')renderKPIs();
   if(tab==='vacantes'){renderVacantes();renderVacMetrics();}
@@ -1278,7 +1226,6 @@ function showTab(tab,btn){
   if(tab==='hellena')renderHellena();
   if(tab==='sueldos')renderSueldos();
   if(tab==='comite')renderComite();
-  if(tab==='junta')renderJunta();
 }
 
 function renderEjecutivo(){
@@ -1724,7 +1671,6 @@ function renderKPIs(){
   });
 }
 document.getElementById('saved-lbl').textContent='Conectando...';
-initApp();
 
 // ── HELLENA ──
 const HBL_KEY='hostech_hellena_v1';
@@ -1985,179 +1931,6 @@ function renderSueldos(){
     ${late?`<div class="cs-pill" style="background:#fde8e8;border-color:#f0a0a0"><strong style="color:#8b1a1a">⚠ ${late}</strong> con retraso</div>`:''}
   `;
 }
-// ── JUNTA SEMANAL ──
-const JUNTA_KEY='hostech_junta_v1';
-const ITEM_TYPES={pendiente:'📋 Pendiente',caso:'👤 Caso de personal',nota:'📝 Nota'};
-const OWNER_COLORS={'Yo resuelvo':'#fad83f','Delegar':'#4563ff','Director':'#4A9FDC','Seguimiento':'#C40E91'};
-const OWNER_TEXT={'Yo resuelvo':'#10100f','Delegar':'#fff','Director':'#fff','Seguimiento':'#fff'};
-
-function nextWednesday(){
-  const d=new Date(); const day=d.getDay();
-  const diff=day<=3?3-day:10-day;
-  d.setDate(d.getDate()+diff);
-  return d.toISOString().slice(0,10);
-}
-
-function loadJunta(){try{return JSON.parse(localStorage.getItem(JUNTA_KEY))||[];}catch{return[];}}
-function saveJunta(){localStorage.setItem(JUNTA_KEY,JSON.stringify(juntas));setSavedLabel('Guardado '+new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'}));syncToSheets('junta',juntas);}
-let juntas=loadJunta(),jtimer=null;
-function djsave(){clearTimeout(jtimer);jtimer=setTimeout(saveJunta,600);}
-
-function addJunta(){
-  const id='j'+Date.now();
-  juntas.unshift({id,fecha:nextWednesday(),items:[]});
-  djsave();renderJunta();
-  setTimeout(()=>{const el=document.getElementById('jf-'+id);if(el)el.focus();},80);
-}
-
-function addItem(jid,tipo){
-  const j=juntas.find(x=>x.id===jid);
-  if(!j)return;
-  j.items.push({id:'i'+Date.now(),tipo,texto:'',owner:'Yo resuelvo',status:'Pendiente'});
-  djsave();renderJunta();
-}
-
-function updItem(jid,iid,field,val){
-  const j=juntas.find(x=>x.id===jid);
-  if(!j)return;
-  const item=j.items.find(x=>x.id===iid);
-  if(item){item[field]=val;djsave();renderJuntaStats();}
-}
-
-function delItem(jid,iid){
-  const j=juntas.find(x=>x.id===jid);
-  if(!j)return;
-  j.items=j.items.filter(x=>x.id!==iid);
-  djsave();renderJunta();
-}
-
-function delJunta(jid){
-  if(!confirm('¿Eliminar esta junta y todos sus items?'))return;
-  juntas=juntas.filter(x=>x.id!==jid);
-  djsave();renderJunta();
-}
-
-function renderJuntaStats(){
-  const allItems=juntas.flatMap(j=>j.items).filter(i=>i.tipo==='pendiente'||i.tipo==='caso');
-  const pend=allItems.filter(i=>i.status!=='Resuelto');
-  const yo=pend.filter(i=>i.owner==='Yo resuelvo').length;
-  const del=pend.filter(i=>i.owner==='Delegar').length;
-  const res=allItems.filter(i=>i.status==='Resuelto').length;
-  const tot=document.getElementById('j-total');const yoEl=document.getElementById('j-yo');
-  const delEl=document.getElementById('j-delegar');const resEl=document.getElementById('j-resueltos');
-  if(tot)tot.textContent=pend.length;
-  if(yoEl)yoEl.textContent=yo;
-  if(delEl)delEl.textContent=del;
-  if(resEl)resEl.textContent=res;
-}
-
-function renderJunta(){
-  renderJuntaStats();
-  const fS=document.getElementById('j-fStatus')?.value||'';
-  const fO=document.getElementById('j-fOwner')?.value||'';
-  const fQ=document.getElementById('j-fQ')?.value.toLowerCase()||'';
-
-  const el=document.getElementById('junta-list');
-  if(!el)return;
-
-  if(!juntas.length){el.innerHTML=`<div style="text-align:center;padding:3rem;color:#8a7f75">No hay juntas registradas · clic en "+ Nueva junta" para empezar</div>`;return;}
-
-  let html='';
-  juntas.forEach(j=>{
-    // Filtrar items
-    let items=j.items;
-    if(fS) items=items.filter(i=>i.status===fS);
-    if(fO) items=items.filter(i=>i.owner===fO);
-    if(fQ) items=items.filter(i=>i.texto.toLowerCase().includes(fQ));
-    if((fS||fO||fQ)&&!items.length)return; // ocultar junta si no hay items que coincidan
-
-    const fecha=j.fecha?new Date(j.fecha+'T12:00:00').toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long',year:'numeric'}):'Sin fecha';
-    const pend=j.items.filter(i=>i.status!=='Resuelto'&&i.tipo!=='nota').length;
-    const total=j.items.filter(i=>i.tipo!=='nota').length;
-
-    html+=`<div style="background:#fff;border:1px solid #e0d8ce;border-radius:14px;margin-bottom:14px;overflow:hidden">
-
-      <!-- Header junta -->
-      <div style="background:#f6f5ec;padding:1rem 1.25rem;display:flex;align-items:center;gap:12px;border-bottom:1px solid #e0d8ce">
-        <div style="flex:1">
-          <input id="jf-${j.id}" type="date" value="${j.fecha||''}" onchange="updJuntaFecha('${j.id}',this.value)"
-            style="font-family:'DM Serif Display',serif;font-size:18px;border:none;background:transparent;color:#10100f;cursor:pointer;outline:none">
-          <div style="font-size:12px;color:#8a7f75;margin-top:2px">${fecha}</div>
-        </div>
-        ${total>0?`<span style="font-size:12px;font-weight:500;color:#8a7f75">${pend} pendiente${pend!==1?'s':''} · ${total} total</span>`:''}
-        <button onclick="delJunta('${j.id}')" style="background:none;border:none;cursor:pointer;color:#c8c7be;font-size:16px;padding:4px 6px" title="Eliminar junta">×</button>
-      </div>
-
-      <!-- Items por tipo -->
-      <div style="padding:1rem 1.25rem">
-
-        <!-- Pendientes -->
-        <div style="margin-bottom:1rem">
-          <div style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8a7f75;margin-bottom:8px">📋 Pendientes generales</div>
-          ${(fS||fO||fQ?items:j.items).filter(i=>i.tipo==='pendiente').map(i=>renderItem(j.id,i)).join('')}
-          <button onclick="addItem('${j.id}','pendiente')" style="font-size:12px;color:#8a7f75;background:none;border:1px dashed #e0d8ce;border-radius:6px;padding:5px 12px;cursor:pointer;width:100%;margin-top:4px;font-family:'DM Sans',sans-serif" onmouseover="this.style.borderColor='#C40E91';this.style.color='#C40E91'" onmouseout="this.style.borderColor='#e0d8ce';this.style.color='#8a7f75'">+ Agregar pendiente</button>
-        </div>
-
-        <!-- Casos de personal -->
-        <div style="margin-bottom:1rem">
-          <div style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8a7f75;margin-bottom:8px">👤 Casos de personal</div>
-          ${(fS||fO||fQ?items:j.items).filter(i=>i.tipo==='caso').map(i=>renderItem(j.id,i)).join('')}
-          <button onclick="addItem('${j.id}','caso')" style="font-size:12px;color:#8a7f75;background:none;border:1px dashed #e0d8ce;border-radius:6px;padding:5px 12px;cursor:pointer;width:100%;margin-top:4px;font-family:'DM Sans',sans-serif" onmouseover="this.style.borderColor='#C40E91';this.style.color='#C40E91'" onmouseout="this.style.borderColor='#e0d8ce';this.style.color='#8a7f75'">+ Agregar caso</button>
-        </div>
-
-        <!-- Notas -->
-        <div>
-          <div style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8a7f75;margin-bottom:8px">📝 Notas y temas de foco</div>
-          ${j.items.filter(i=>i.tipo==='nota').map(i=>`
-            <div style="display:flex;gap:8px;margin-bottom:6px;align-items:flex-start">
-              <textarea style="flex:1;font-family:'DM Sans',sans-serif;font-size:13px;padding:8px 10px;border:1px solid #e0d8ce;border-radius:8px;background:#f6f5ec;color:#3d3530;resize:none;overflow:hidden;min-height:36px;line-height:1.4;outline:none"
-                oninput="updItem('${j.id}','${i.id}','texto',this.value);this.style.height='auto';this.style.height=this.scrollHeight+'px'"
-                onfocus="this.style.borderColor='#4563ff'" onblur="this.style.borderColor='#e0d8ce'"
-                placeholder="Escribe tu nota aquí...">${(i.texto||'').replace(/</g,'&lt;')}</textarea>
-              <button onclick="delItem('${j.id}','${i.id}')" style="background:none;border:none;cursor:pointer;color:#c8c7be;font-size:15px;flex-shrink:0;padding:6px 4px">×</button>
-            </div>`).join('')}
-          <button onclick="addItem('${j.id}','nota')" style="font-size:12px;color:#8a7f75;background:none;border:1px dashed #e0d8ce;border-radius:6px;padding:5px 12px;cursor:pointer;width:100%;margin-top:4px;font-family:'DM Sans',sans-serif" onmouseover="this.style.borderColor='#C40E91';this.style.color='#C40E91'" onmouseout="this.style.borderColor='#e0d8ce';this.style.color='#8a7f75'">+ Agregar nota</button>
-        </div>
-
-      </div>
-    </div>`;
-  });
-
-  el.innerHTML=html||`<div style="text-align:center;padding:2rem;color:#8a7f75">No hay resultados con ese filtro</div>`;
-}
-
-function renderItem(jid,i){
-  const oc=OWNER_COLORS[i.owner]||'#f6f5ec';
-  const ot=OWNER_TEXT[i.owner]||'#10100f';
-  const done=i.status==='Resuelto';
-  const owners=['Yo resuelvo','Delegar','Director','Seguimiento'];
-  const statuses=['Pendiente','En seguimiento','Resuelto'];
-  return `<div style="display:flex;gap:8px;margin-bottom:8px;align-items:flex-start;${done?'opacity:.5':''}">
-    <input type="checkbox" ${done?'checked':''} onchange="updItem('${jid}','${i.id}','status',this.checked?'Resuelto':'Pendiente');this.closest('div').style.opacity=this.checked?'.5':'1'"
-      style="margin-top:10px;width:16px;height:16px;cursor:pointer;flex-shrink:0;accent-color:#C40E91">
-    <textarea style="flex:1;font-family:'DM Sans',sans-serif;font-size:13px;padding:8px 10px;border:1px solid #e0d8ce;border-radius:8px;background:#fff;color:#3d3530;resize:none;overflow:hidden;min-height:36px;line-height:1.4;outline:none;${done?'text-decoration:line-through;color:#8a7f75':''}"
-      oninput="updItem('${jid}','${i.id}','texto',this.value);this.style.height='auto';this.style.height=this.scrollHeight+'px'"
-      onfocus="this.style.borderColor='#4563ff'" onblur="this.style.borderColor='#e0d8ce'"
-      placeholder="Descripción...">${(i.texto||'').replace(/</g,'&lt;')}</textarea>
-    <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0">
-      <select onchange="updItem('${jid}','${i.id}','owner',this.value);this.style.background=OWNER_COLORS[this.value]||'#f6f5ec';this.style.color=OWNER_TEXT[this.value]||'#10100f'"
-        style="font-family:'DM Sans',sans-serif;font-size:11px;padding:4px 6px;border-radius:6px;border:1px solid #e0d8ce;background:${oc};color:${ot};cursor:pointer;font-weight:500;outline:none">
-        ${owners.map(o=>`<option value="${o}"${i.owner===o?' selected':''}>${o}</option>`).join('')}
-      </select>
-      <select onchange="updItem('${jid}','${i.id}','status',this.value)"
-        style="font-family:'DM Sans',sans-serif;font-size:11px;padding:4px 6px;border-radius:6px;border:1px solid #e0d8ce;background:#fff;color:#3d3530;cursor:pointer;outline:none">
-        ${statuses.map(s=>`<option value="${s}"${i.status===s?' selected':''}>${s}</option>`).join('')}
-      </select>
-    </div>
-    <button onclick="delItem('${jid}','${i.id}')" style="background:none;border:none;cursor:pointer;color:#c8c7be;font-size:15px;flex-shrink:0;padding:6px 4px;margin-top:2px">×</button>
-  </div>`;
-}
-
-function updJuntaFecha(jid,val){
-  const j=juntas.find(x=>x.id===jid);
-  if(j){j.fecha=val;djsave();renderJunta();}
-}
-
 // ── COMITÉ DE PLANEACIÓN ESTRATÉGICA ──
 const COM_KEY='hostech_comite_v1';
 const COM_STATUS=[
@@ -2228,6 +2001,9 @@ function renderComite(){
   });
   document.getElementById('comite-body').innerHTML=html;
 }
+
+// ── ARRANQUE ──
+initApp();
 </script>
 </body>
 </html>
